@@ -1,0 +1,90 @@
+using WeConnect.Data;
+namespace WeConnect.Models;
+public class FriendManager 
+{
+    FriendsDB _friendsDB;
+    public FriendManager(FriendsDB friendsDB)
+    {
+        _friendsDB = friendsDB;
+    }
+    public int Create(User user, int friendId)
+    {
+        try
+        {
+            _friendsDB.Create(user, friendId);
+            return 1;
+        }
+        catch (InvalidOperationException)
+        {
+            return 0;
+        }
+    }
+    public bool IsBefriended(User user, int friendId)
+    {
+        try
+        {
+            if (_friendsDB.CheckIfBefriended(user, friendId) > 0)
+            {
+                return true;
+            }
+            else return false;
+        }
+        catch (InvalidOperationException)
+        {
+            return false;
+        }
+    }
+    public void Update(User user)
+    {
+        List<int> friendRequestsIds = _friendsDB.GetMyFriendRequests(user);
+        List<int> friendsToBeAccepted = new();
+        foreach (int id in friendRequestsIds)
+        {
+            if (_friendsDB.CheckIfFriendAccepted(user, id) < 1)
+            {
+                break;
+            }
+            else
+            {
+                friendsToBeAccepted.Add(id);
+            }
+        }
+        foreach (int id in friendsToBeAccepted)
+        {
+            _friendsDB.Update(user, id);
+        }
+    }
+    public bool IsFriendRequestWaiting(User user, int friendId)
+    {
+        try
+        {
+            if(_friendsDB.CheckIfFriendAccepted(user, friendId) > 0) return true;
+            else return false;
+        }
+        catch(InvalidOperationException)
+        {
+            return false;
+        }
+    }
+    public List<User> GetMine(User user)
+    {
+        try
+        {
+            return _friendsDB.GetMine(user);
+        }
+        catch (InvalidOperationException)
+        {
+            List<User> users= new();
+            return users;
+        }
+    }
+    public void LoadFriends(User user)
+    {
+        user.MyFriends.Clear();
+        user.MyFriends = GetMine(user);
+    }
+    public int Delete(User user, int friendId)
+    {   //FELHANTERA
+        return _friendsDB.Delete(user, friendId);
+    }
+}
