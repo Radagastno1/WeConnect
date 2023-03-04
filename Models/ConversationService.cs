@@ -4,13 +4,15 @@ namespace WeConnect.Models;
 public class ConversationManager
 {
     ConversationDB _conversationDB;
-    public ConversationManager(ConversationDB conversationDB)
+     CrudDB<Conversation> _crudDB;
+    public ConversationManager(ConversationDB conversationDB, CrudDB<Conversation> crudDB)
     {
         _conversationDB = conversationDB;
+        _crudDB = crudDB;
     }
     public int? Create(Conversation conversation)
     {
-        int? conversationId = _conversationDB.Create(conversation, QueryGenerator<Conversation>.InsertQuery(conversation));
+        int? conversationId = _crudDB.Create(conversation, QueryGenerator<Conversation>.InsertQuery(conversation));
         if (conversationId != null)
         {         
             conversation.ID = conversationId.GetValueOrDefault();
@@ -19,7 +21,7 @@ public class ConversationManager
     }
     public int? Update(Conversation conversation)
     {
-        int? usersConversationId = _conversationDB.Update(conversation, QueryGenerator<Conversation>.UpdateQuery(conversation));
+        int? usersConversationId = _crudDB.Update(conversation, QueryGenerator<Conversation>.UpdateQuery(conversation));
         return usersConversationId;
     }
     public List<Conversation> GetAll(int data, User user)
@@ -70,7 +72,7 @@ public class ConversationManager
     }
     public List<int> GetAllMyConversationsIds(User user)
     {
-        List<Conversation> conversations = _conversationDB.GetAll(user, QueryGenerator<Conversation>.SelectQuery(new Conversation(), user));
+        List<Conversation> conversations = _crudDB.GetAll(user, QueryGenerator<Conversation>.SelectQuery(new Conversation(), user));
         List<int> conversationIds = new();
         conversations.ForEach(c => conversationIds.Add(c.ID));
         return conversationIds;

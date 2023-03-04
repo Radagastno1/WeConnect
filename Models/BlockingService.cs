@@ -4,8 +4,9 @@ namespace WeConnect.Models;
 
 public class BlockingService
 {
+    public Func<User, int, int> OnBlockUser;
     BlockingsDB _blockingsDB;
-    public BlockingService(BlockingsDB blockingsDB) 
+    public BlockingService(BlockingsDB blockingsDB)
     {
         _blockingsDB = blockingsDB;
     }

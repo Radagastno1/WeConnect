@@ -1,16 +1,23 @@
 using WeConnect.Data;
+
 namespace WeConnect.Models;
+
 public class UserService
 {
     UsersDB _usersDB;
-    public UserService(UsersDB usersDB)
+    CrudDB<User> _crudDB;
+    public Action<User> OnDelete;
+    public UserService(UsersDB usersDB, CrudDB<User> crudDB)
     {
         _usersDB = usersDB;
+        _crudDB = crudDB;
     }
+
     public int? Create(User user)
     {
-        return _usersDB.Create(user, QueryGenerator<User>.InsertQuery(user));
+        return _crudDB.Create(user, QueryGenerator<User>.InsertQuery(user));
     }
+
     public List<User> GetBySearch(string name, User user)
     {
         List<User> foundUsers = _usersDB.GetSearches(name);
@@ -25,6 +32,7 @@ public class UserService
         }
         return usersAvailable;
     }
+
     public User GetOne(int id, User user)
     {
         // List<User> allUsers = _userData.GetAll();
@@ -41,11 +49,12 @@ public class UserService
             User foundUser = _usersDB.GetOne(id, user);
             return foundUser;
         }
-        catch(InvalidOperationException)
+        catch (InvalidOperationException)
         {
             return null;
         }
     }
+
     public List<User> GetUsersById(List<int> ids, User user)
     {
         List<User> participants = new();
@@ -56,13 +65,15 @@ public class UserService
         }
         return participants;
     }
+
     public int? Remove(User user)
     {
-        return _userData.Delete(user, QueryGenerator<User>.DeleteQuery(user));
+        return _crudDB.Delete(user, QueryGenerator<User>.DeleteQuery(user));
     }
+
     public int? Update(User user)
     {
-        int? rows = _userData.Update(user, QueryGenerator<User>.UpdateQuery(user));
+        int? rows = _crudDB.Update(user, QueryGenerator<User>.UpdateQuery(user));
         if (rows > 0)
         {
             return rows;

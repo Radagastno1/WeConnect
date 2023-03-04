@@ -3,13 +3,15 @@ namespace WeConnect.Models;
 public class CommentsManager
 {
     CommentsDB _commentsDB;
-    public CommentsManager(CommentsDB commentsDB)
+     CrudDB<Comment> _crudDB;
+    public CommentsManager(CommentsDB commentsDB, CrudDB<Comment> crudDB)
     {
         _commentsDB = commentsDB;
+        _crudDB = crudDB;
     }
     public int? Create(Comment obj)
     {
-        return _commentsDB.Create(obj, QueryGenerator<Comment>.InsertQuery(obj));
+        return _crudDB.Create(obj, QueryGenerator<Comment>.InsertQuery(obj));
     }
     public List<Comment> GetAll(int postId, User user)
     {

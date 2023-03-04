@@ -4,13 +4,15 @@ namespace WeConnect.Models;
 public class MessgageManager 
 {   
     MessagesDB _messagesDB;
-    public MessgageManager(MessagesDB messagesDB)
+     CrudDB<Message> _crudDB;
+    public MessgageManager(MessagesDB messagesDB, CrudDB<Message> crudDB)
     {
         _messagesDB = messagesDB;
+        _crudDB = crudDB;
     }
     public int? Create(Message message)
     {
-        return _messagesDB.Create(message, QueryGenerator<Message>.InsertQuery(message));
+        return _crudDB.Create(message, QueryGenerator<Message>.InsertQuery(message));
     }
 
     public List<Message> GetAll(int conversationId, User user)
