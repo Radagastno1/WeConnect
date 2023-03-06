@@ -1,0 +1,60 @@
+h1 {
+    color: rgb(8, 51, 95);
+    background-image: url("/css/riktig.jpg");
+    background-size: auto 600px;
+    height: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    font-size: 100px;
+}
+
+a {
+    text-decoration: none;
+}
+
+#mySidenav a {
+    position: absolute;
+    /* Position them relative to the browser window */
+    left: 0px;
+    /* Position them outside of the screen */
+    transition: 0.3s;
+    /* Add transition on hover */
+    padding: 15px;
+    /* 15px padding */
+    width: 200px;
+    /* Set a specific width */
+    text-decoration: none;
+    /* Remove underline */
+    font-size: 20px;
+    /* Increase font size */
+    color: rgb(8, 51, 95);
+    /* White text color */
+    font-weight: bold;
+    border-radius: 0 5px 5px 0;
+    /* Rounded corners on the top right and bottom right side */
+}
+
+#mySidenav a:hover {
+    opacity: 0.5;
+    /* On mouse-over, make the elements appear as they should */
+}
+
+/* The about link: 20px from the top with a green background */
+#signin {
+    top:300;
+    background-color: #ec8135;
+}
+
+#signup {
+    top: 450px;
+    background-color: #c78835;
+    /* Blue */
+}
+
+#contact {
+    top: 525px;
+    background-color: #ae4707;
+    /* Red */
+}

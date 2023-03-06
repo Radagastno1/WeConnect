@@ -20,6 +20,11 @@ public class HomeController : Controller
         return View();
     }
 
+    public IActionResult SignIn()
+    {
+        return View();
+    }
+
     [HttpPost]
     public IActionResult SignIn(string email, string password)
     {

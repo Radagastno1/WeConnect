@@ -1,0 +1,10 @@
+@model WeConnect.Models.User
+@{
+    ViewData["Title"] = "WeConnect";
+}
+
+<form method="post" action="Home/SignIn">
+    Email: <input type="email" name="Email" />
+    Password: <input type="password" name="Password" />
+    <input type="submit" value="Logga in" />
+</form>
