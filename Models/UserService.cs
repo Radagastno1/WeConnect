@@ -7,10 +7,24 @@ public class UserService
     UsersDB _usersDB;
     CrudDB<User> _crudDB;
     public Action<User> OnDelete;
+
     public UserService(UsersDB usersDB, CrudDB<User> crudDB)
     {
         _usersDB = usersDB;
         _crudDB = crudDB;
+    }
+
+    public User GetUserById(int? id)
+    {
+        try
+        {
+            var user = _usersDB.GetUserById(id);
+            return user;
+        }
+        catch
+        {
+            return null;
+        }
     }
 
     public int? Create(User user)

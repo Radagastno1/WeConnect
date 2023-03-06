@@ -1,8 +1,15 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model WeConnect.Models.User
+@{
+    ViewData["Title"] = "WeConnect";
 }
+<h1>Sign in</h1>
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+
+<form method="post" action="Home/SignIn">
+    Email: <input type="email" name="Email" />
+    Password: <input type="password" name="Password" />
+    <input type="submit" value="Logga in" />
+</form>
+
+
+

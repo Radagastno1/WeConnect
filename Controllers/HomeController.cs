@@ -6,11 +6,13 @@ namespace WeConnect.Controllers;
 
 public class HomeController : Controller
 {
-    private readonly ILogger<HomeController> _logger;
+    private readonly LogInService _logInService;
+    private readonly UserService _userService;
 
-    public HomeController(ILogger<HomeController> logger)
+    public HomeController(LogInService logInService, UserService userService)
     {
-        _logger = logger;
+        _logInService = logInService;
+        _userService = userService;
     }
 
     public IActionResult Index()
@@ -18,14 +20,19 @@ public class HomeController : Controller
         return View();
     }
 
-    public IActionResult Privacy()
+    [HttpPost]
+    public IActionResult SignIn(string email, string password)
     {
-        return View();
-    }
-
-    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    public IActionResult Error()
-    {
-        return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        try
+        {
+            var user = _logInService.LogIn(email, password);
+            HttpContext.Session.SetInt32("UserId", user.ID);
+            return RedirectToAction("Index", "Account");
+        }
+        catch (Exception e)
+        {
+            Debug.WriteLine("ERROR:" + e.Message);
+            return RedirectToAction("Index", "Home");
+        }
     }
 }
