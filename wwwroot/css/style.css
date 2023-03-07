@@ -121,11 +121,11 @@ button:hover {
     font-size: larger;
 }
 
-.container {
+/* .container {
     display:flex;
     margin-top: 20px;
     margin-left: 150px;
-}
+} */
 
 li {
     text-align: left;

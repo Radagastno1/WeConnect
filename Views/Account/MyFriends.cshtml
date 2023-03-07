@@ -18,11 +18,9 @@
 
 @foreach (var item in Model)
 {
-    <div class="container">
-            <a href="Profile/blabla?" id="friendsLinks"> 
-            @Html.DisplayFor(x => item.FirstName)
-            @Html.DisplayFor(x => item.LastName)
-            </a>
-    </div>
+    <a asp-controller="Profile" asp-action="Friend" asp-route-id="@item.ID">
+        @Html.DisplayFor(x => item.FirstName)
+        @Html.DisplayFor(x => item.LastName)
+    </a>
 }
 

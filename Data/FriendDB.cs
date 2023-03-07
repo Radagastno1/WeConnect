@@ -25,7 +25,8 @@ public class FriendsDB
     {
         List<User> friends = new();
         using MySqlConnection connection = new MySqlConnection($"Server=localhost;Database=facebook_lite;Uid=root;Pwd=;");
-        string query = "SELECT u.id, u.first_name AS 'FirstName', u.last_name AS 'LastName' FROM users u " +
+        string query = "SELECT u.id AS 'Id', u.first_name AS 'FirstName', u.last_name AS 'LastName', DATE_FORMAT(u.birth_date, '%Y-%m-%d') as 'BirthDate', u.gender, " +
+               "u.about_me as 'AboutMe' FROM users u " +
                     "INNER JOIN users_friends uf ON u.id = uf.users_id2 " +
                     "WHERE uf.users_id1 = @userId AND uf.is_accepted = TRUE;";
         friends = connection.Query<User>(query, new { @userId = user.ID }).ToList();

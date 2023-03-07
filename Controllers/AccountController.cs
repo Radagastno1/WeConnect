@@ -88,6 +88,7 @@ public class AccountController : Controller
     {
         return new FriendViewModel()
         {
+            ID = user.ID,
             FirstName = user.FirstName,
             LastName = user.LastName,
             Email = user.Email
