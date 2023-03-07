@@ -16,6 +16,7 @@ builder.Services.AddScoped<WeConnect.Data.PostsDB>();
 builder.Services.AddScoped<WeConnect.Data.UsersDB>();
 builder.Services.AddScoped<WeConnect.Models.LogInService>();
 builder.Services.AddScoped<WeConnect.Models.UserService>();
+builder.Services.AddScoped<WeConnect.Models.FriendService>();
 
 var app = builder.Build();
 

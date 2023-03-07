@@ -1,9 +1,9 @@
 using WeConnect.Data;
 namespace WeConnect.Models;
-public class FriendManager 
+public class FriendService
 {
     FriendsDB _friendsDB;
-    public FriendManager(FriendsDB friendsDB)
+    public FriendService(FriendsDB friendsDB)
     {
         _friendsDB = friendsDB;
     }

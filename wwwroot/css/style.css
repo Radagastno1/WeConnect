@@ -36,6 +36,28 @@ a {
     /* Rounded corners on the top right and bottom right side */
 }
 
+#myRightSidenav a {
+    position: absolute;
+    /* Position them relative to the browser window */
+    right: 0px;
+    /* Position them outside of the screen */
+    transition: 0.3s;
+    /* Add transition on hover */
+    padding: 15px;
+    /* 15px padding */
+    width: 200px;
+    /* Set a specific width */
+    text-decoration: none;
+    /* Remove underline */
+    font-size: 20px;
+    /* Increase font size */
+    color: rgb(8, 51, 95);
+    /* White text color */
+    font-weight: bold;
+    border-radius: 0 5px 5px 0;
+    /* Rounded corners on the top right and bottom right side */
+}
+
 #signin-form {
     transition: 0.3s;
     display: flex;
@@ -56,29 +78,60 @@ a {
     border-radius: 5px;
     border-color: transparent;
 }
-#signin-button:hover{
+
+button:hover {
     opacity: 0.5;
 }
 
-#mySidenav a:hover {
+#mySidenav a:hover,
+#myRightSidenav a:hover {
     opacity: 0.5;
     /* On mouse-over, make the elements appear as they should */
 }
 
 /* The about link: 20px from the top with a green background */
-#signin {
+#signin,
+#myfriends,
+#search {
     top: 380px;
-    background-color: #ec8135;
+    background-color: #fae38d;
 }
 
-#signup {
+#signup,
+#myconversations,
+#signout {
     top: 450px;
-    background-color: #c78835;
+    background-color: #f8ad4a;
     /* Blue */
 }
 
-#contact {
+#contact,
+#mymeetings {
     top: 525px;
-    background-color: #ae4707;
+    background-color: #c37748;
     /* Red */
+}
+
+#welcome {
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    color: rgb(149, 198, 247);
+    font-weight: bold;
+    font-size: larger;
+}
+.container {
+    margin-top: 100px;
+    margin-left: 150px;
+}
+
+li {
+    display: inline-block;
+    text-align: left;
+}
+
+#friendsLinks {
+    color: rgb(102, 164, 227);
+    font-weight: bold;
+    font-size: x-large;
 }
