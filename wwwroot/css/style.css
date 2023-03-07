@@ -120,18 +120,30 @@ button:hover {
     font-weight: bold;
     font-size: larger;
 }
+
 .container {
-    margin-top: 100px;
+    display:flex;
+    margin-top: 20px;
     margin-left: 150px;
 }
 
 li {
-    display: inline-block;
     text-align: left;
+}
+#friendsh3{
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    color: rgb(247, 164, 39);
+    margin-top: 20px;
 }
 
 #friendsLinks {
-    color: rgb(102, 164, 227);
+    display: inline-block;
+    text-align: left;
+    margin-bottom: 10px;
+    color: rgb(70, 158, 246);
     font-weight: bold;
     font-size: x-large;
+    list-style: none;
 }

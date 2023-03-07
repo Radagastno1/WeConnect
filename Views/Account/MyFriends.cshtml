@@ -1,11 +1,11 @@
 @model List<WeConnect.Models.FriendViewModel>
 @{
-    ViewData["Title"] = "My Page";
+    ViewData["Title"] = "Friends";
 }
 
 <div id="mySidenav" class="sidenav">
     <a href="/Account/myfriends" id="myfriends">My Friends</a>
-    <a href="/Account/myconversations" id="myconversations">My Conversations</a>
+    <a href="/Account/chat" id="chat">My Conversations</a>
     <a href="/Account/mymeetings" id="mymeetings">My Meetings</a>
 </div>
 
@@ -14,16 +14,15 @@
     <a href="/Account/signout" id="signout">Sign out</a>
 </div>
 
+<h3 id=friendsh3>My Friends</h3>
+
 @foreach (var item in Model)
 {
     <div class="container">
-        <li>
             <a href="Profile/blabla?" id="friendsLinks"> 
             @Html.DisplayFor(x => item.FirstName)
             @Html.DisplayFor(x => item.LastName)
             </a>
-        </li>
     </div>
-
 }
 

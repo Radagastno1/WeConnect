@@ -1,11 +1,11 @@
 using WeConnect.Data;
 namespace WeConnect.Models;
 
-public class ConversationManager
+public class ConversationService
 {
     ConversationDB _conversationDB;
      CrudDB<Conversation> _crudDB;
-    public ConversationManager(ConversationDB conversationDB, CrudDB<Conversation> crudDB)
+    public ConversationService(ConversationDB conversationDB, CrudDB<Conversation> crudDB)
     {
         _conversationDB = conversationDB;
         _crudDB = crudDB;

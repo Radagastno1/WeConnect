@@ -8,11 +8,17 @@ public class AccountController : Controller
 {
     private readonly FriendService _friendService;
     private readonly UserService _userService;
+    private readonly ConversationService _conversationService;
 
-    public AccountController(FriendService friendService, UserService userService)
+    public AccountController(
+        FriendService friendService,
+        UserService userService,
+        ConversationService conversationService
+    )
     {
         _friendService = friendService;
         _userService = userService;
+        _conversationService = conversationService;
     }
 
     public IActionResult Index()
@@ -57,17 +63,34 @@ public class AccountController : Controller
         }
     }
 
+    public ActionResult<Conversation> Chat()
+    {
+        try
+        {
+            var userId = HttpContext.Session.GetInt32("UserId");
+            var user = _userService.GetUserById(userId);
+            List<int> conversationIds = _conversationService.GetAllMyConversationsIds(user);
+            List<Conversation> myConversations = _conversationService.GetById(conversationIds);
+            return View(myConversations);
+        }
+        catch
+        {
+            return RedirectToAction("index");
+        }
+    }
+
     private List<FriendViewModel> FriendsToViewModel(List<User> users)
     {
         return users.Select(u => UserToFriendViewModel(u)).ToList();
     }
+
     private FriendViewModel UserToFriendViewModel(User user)
     {
-        return new FriendViewModel(){
+        return new FriendViewModel()
+        {
             FirstName = user.FirstName,
             LastName = user.LastName,
             Email = user.Email
         };
     }
-
 }
