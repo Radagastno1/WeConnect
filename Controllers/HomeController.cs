@@ -40,4 +40,20 @@ public class HomeController : Controller
             return RedirectToAction("Index", "Home");
         }
     }
+
+    public IActionResult SignUp()
+    {
+        return View();
+    }
+
+    // [HttpPost]
+    // public IActionResult SignUp(string email, string password) 
+    // { 
+    //     return 
+    // }
+
+    public IActionResult Contact()
+    {
+        return View();
+    }
 }

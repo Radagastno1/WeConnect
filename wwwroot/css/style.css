@@ -36,6 +36,30 @@ a {
     /* Rounded corners on the top right and bottom right side */
 }
 
+#signin-form {
+    transition: 0.3s;
+    display: flex;
+    margin: 30px;
+    justify-content: center;
+    align-content: center;
+    color: darkblue;
+}
+
+#signin-button {
+    width: 100px;
+    background-color: #ec8135;
+    color: rgb(8, 51, 95);
+    /* White text color */
+    font-weight: bold;
+    padding: 10px;
+    /* 15px padding */
+    border-radius: 5px;
+    border-color: transparent;
+}
+#signin-button:hover{
+    opacity: 0.5;
+}
+
 #mySidenav a:hover {
     opacity: 0.5;
     /* On mouse-over, make the elements appear as they should */
@@ -43,7 +67,7 @@ a {
 
 /* The about link: 20px from the top with a green background */
 #signin {
-    top:300;
+    top: 380px;
     background-color: #ec8135;
 }
 

@@ -3,8 +3,14 @@
     ViewData["Title"] = "WeConnect";
 }
 
-<form method="post" action="SignIn">
-    Email: <input type="email" name="Email" />
-    Password: <input type="password" name="Password" />
-    <input type="submit" value="Logga in" />
+<div id="mySidenav" class="sidenav">
+    <a href="/Home/SignIn" id="signin">Sign In</a>
+    <a href="/Home/SignUp" id="signup">Sign Up</a>
+    <a href="/Hpme/Contact" id="contact">Contact</a>
+</div>
+
+<form id=signin-form method="post" action="SignIn">
+    <h4>Email</h4> <input type="email" name="Email" />
+    <h4>Password </h4><input type="password" name="Password" />
+    <input type="submit" id=signin-button value="Logga in" />
 </form>

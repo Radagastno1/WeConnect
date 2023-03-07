@@ -32,12 +32,6 @@ public class AccountController : Controller
                 LastName = user.LastName,
                 Email = user.Email
             };
-            // var user = new User
-            // {
-            //     FirstName = "John",
-            //     LastName = "Doe",
-            //     Email = "john.doe@example.com"
-            // };
             return View(homePageViewModel);
         }
         catch (Exception e)
