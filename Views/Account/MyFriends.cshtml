@@ -1,4 +1,4 @@
-@model List<WeConnect.Models.FriendViewModel>
+@model List<WeConnect.ViewModels.FriendViewModel>
 @{
     ViewData["Title"] = "Friends";
 }
@@ -19,8 +19,10 @@
 @foreach (var item in Model)
 {
     <a asp-controller="Profile" asp-action="Friend" asp-route-id="@item.ID">
-        @Html.DisplayFor(x => item.FirstName)
-        @Html.DisplayFor(x => item.LastName)
+        <li>
+            @Html.DisplayFor(x => item.FirstName)
+            @Html.DisplayFor(x => item.LastName)
+        </li>
     </a>
 }
 

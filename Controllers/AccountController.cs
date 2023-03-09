@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using WeConnect.Models;
+using WeConnect.ViewModels;
 
 namespace WeConnect.Controllers;
 

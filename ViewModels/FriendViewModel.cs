@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc.Rendering;
 
-namespace WeConnect.Models;
+namespace WeConnect.ViewModels;
 
 [Serializable]
 public class FriendViewModel

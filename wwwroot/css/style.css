@@ -121,14 +121,17 @@ button:hover {
     font-size: larger;
 }
 
-/* .container {
-    display:flex;
+.container {
     margin-top: 20px;
-    margin-left: 150px;
-} */
+    display:flex;
+    justify-content: center;
+    align-content: center;
+    list-style-type: none;
+}
 
 li {
     text-align: left;
+    font-size: large;
 }
 #friendsh3{
     display: flex;

@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc.Rendering;
+using WeConnect.Models;
 
-namespace WeConnect.Models;
+namespace WeConnect.ViewModels;
 
 [Serializable]
 public class ProfileViewModel
@@ -14,5 +15,5 @@ public class ProfileViewModel
     public string Gender { get; private set; }
 
     public string AboutMe { get; set; }
-    public List<User> MyFriends { get; set; } = new();
+    public List<ProfileViewModel> MyFriends { get; set; } = new();
 }
