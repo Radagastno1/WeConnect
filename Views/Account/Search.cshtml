@@ -1,0 +1,40 @@
+@model List<WeConnect.ViewModels.FriendViewModel>
+@{
+    ViewData["Title"] = "Search";
+}
+
+<div id="mySidenav" class="sidenav">
+    <a href="/Account/myfriends" id="myfriends">My Friends</a>
+    <a href="/Account/chat" id="myconversations">My Conversations</a>
+    <a href="/Account/mymeetings" id="mymeetings">My Meetings</a>
+</div>
+
+<div id="myRightSidenav" class="rightsidenav">
+    <a href="/Account/search" id="search">Search</a>
+    <a href="/Account/signout" id="signout">Sign out</a>
+</div>
+
+<h3 id=friendsh3>Find people to connect with</h3>
+
+<form id=search-form method="post" action="Search">
+    <h4>Search:</h4> <input type="text" name="search" />
+    <input type="submit" id=search-button value="Search" />
+</form>
+
+@if(Model != null)
+{
+    @foreach (var  item in Model)
+    {
+          <a asp-controller="Profile" asp-action="Friend" asp-route-id="@item.ID">
+        <li>
+            @if(item.ProfilePhoto != null)
+            {
+ <img src="@Html.Raw(item.ProfilePhoto.ImageUrl)" id="allFriendsPhotos">
+
+            }
+            @Html.DisplayFor(x => item.FirstName)
+            @Html.DisplayFor(x => item.LastName)
+        </li>
+    </a>
+    }
+}

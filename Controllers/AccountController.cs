@@ -86,6 +86,21 @@ public class AccountController : Controller
         return RedirectToAction("Index", "Home");
     }
 
+    public ActionResult Search()
+    {
+        return View();
+    }
+
+    [HttpPost]
+    public ActionResult<FriendViewModel> Search(string search)
+    {
+        var userId = HttpContext.Session.GetInt32("UserId");
+        var user = _userService.GetUserById(userId);
+        var foundUsers = _userService.GetBySearch(search, user);
+        var usersAsFriendViewModels = foundUsers.Select(u => UserToFriendViewModel(u)).ToList();
+        return View(usersAsFriendViewModels);
+    }
+
     private List<FriendViewModel> FriendsToViewModel(List<User> users)
     {
         return users.Select(u => UserToFriendViewModel(u)).ToList();
