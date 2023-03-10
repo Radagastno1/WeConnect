@@ -6,12 +6,14 @@ public class UserService
 {
     UsersDB _usersDB;
     CrudDB<User> _crudDB;
+    PhotoDB _photoDB;
     public Action<User> OnDelete;
 
-    public UserService(UsersDB usersDB, CrudDB<User> crudDB)
+    public UserService(UsersDB usersDB, CrudDB<User> crudDB, PhotoDB photoDB)
     {
         _usersDB = usersDB;
         _crudDB = crudDB;
+        _photoDB = photoDB;
     }
 
     public User GetUserById(int? id)
@@ -19,6 +21,15 @@ public class UserService
         try
         {
             var user = _usersDB.GetUserById(id);
+            var photo = _photoDB.GetProfilePhoto(user);
+            if (photo == null)
+            {
+                user.ProfilePhoto = new Photo();
+            }
+            else
+            {
+                user.ProfilePhoto = photo;
+            }
             return user;
         }
         catch

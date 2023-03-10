@@ -1,12 +1,18 @@
 using WeConnect.Data;
+
 namespace WeConnect.Models;
+
 public class FriendService
 {
     FriendsDB _friendsDB;
-    public FriendService(FriendsDB friendsDB)
+    PhotoDB _photoDB;
+
+    public FriendService(FriendsDB friendsDB, PhotoDB photoDB)
     {
         _friendsDB = friendsDB;
+        _photoDB = photoDB;
     }
+
     public int Create(User user, int friendId)
     {
         try
@@ -19,6 +25,7 @@ public class FriendService
             return 0;
         }
     }
+
     public bool IsBefriended(User user, int friendId)
     {
         try
@@ -27,13 +34,15 @@ public class FriendService
             {
                 return true;
             }
-            else return false;
+            else
+                return false;
         }
         catch (InvalidOperationException)
         {
             return false;
         }
     }
+
     public void Update(User user)
     {
         List<int> friendRequestsIds = _friendsDB.GetMyFriendRequests(user);
@@ -54,37 +63,56 @@ public class FriendService
             _friendsDB.Update(user, id);
         }
     }
+
     public bool IsFriendRequestWaiting(User user, int friendId)
     {
         try
         {
-            if(_friendsDB.CheckIfFriendAccepted(user, friendId) > 0) return true;
-            else return false;
+            if (_friendsDB.CheckIfFriendAccepted(user, friendId) > 0)
+                return true;
+            else
+                return false;
         }
-        catch(InvalidOperationException)
+        catch (InvalidOperationException)
         {
             return false;
         }
     }
+
     public List<User> GetMine(User user)
     {
         try
         {
-            return _friendsDB.GetMine(user);
+            var friends = _friendsDB.GetMine(user);
+            foreach (var friend in friends)
+            {
+                var photo = _photoDB.GetProfilePhoto(friend);
+                if (photo == null)
+                {
+                    friend.ProfilePhoto = new Photo();
+                }
+                else
+                {
+                    friend.ProfilePhoto = photo;
+                }
+            }
+            return friends;
         }
         catch (InvalidOperationException)
         {
-            List<User> users= new();
+            List<User> users = new();
             return users;
         }
     }
+
     public void LoadFriends(User user)
     {
         user.MyFriends.Clear();
         user.MyFriends = GetMine(user);
     }
+
     public int Delete(User user, int friendId)
-    {   //FELHANTERA
+    { //FELHANTERA
         return _friendsDB.Delete(user, friendId);
     }
 }

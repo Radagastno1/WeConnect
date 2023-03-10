@@ -92,7 +92,8 @@ public class AccountController : Controller
             ID = user.ID,
             FirstName = user.FirstName,
             LastName = user.LastName,
-            Email = user.Email
+            Email = user.Email,
+            ProfilePhoto = user.ProfilePhoto
         };
     }
 }

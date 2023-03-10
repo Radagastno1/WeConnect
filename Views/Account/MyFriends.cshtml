@@ -20,6 +20,11 @@
 {
     <a asp-controller="Profile" asp-action="Friend" asp-route-id="@item.ID">
         <li>
+            @if(item.ProfilePhoto != null)
+            {
+ <img src="@Html.Raw(item.ProfilePhoto.ImageUrl)" id="allFriendsPhotos">
+
+            }
             @Html.DisplayFor(x => item.FirstName)
             @Html.DisplayFor(x => item.LastName)
         </li>

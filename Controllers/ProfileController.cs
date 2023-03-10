@@ -80,7 +80,8 @@ public class ProfileController : Controller
             Email = user.Email,
             BirthDate = user.BirthDate,
             Gender = user.Gender,
-            AboutMe = user.AboutMe
+            AboutMe = user.AboutMe,
+            ProfilePhoto = user.ProfilePhoto
         };
     }
 }

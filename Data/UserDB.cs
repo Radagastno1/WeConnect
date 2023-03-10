@@ -10,19 +10,11 @@ public class UsersDB
         try
         {
             string query = 
-            "START TRANSACTION;" +
                 "SELECT u.id, u.first_name as 'FirstName', u.last_name as 'LastName', " +
                "DATE_FORMAT(u.birth_date, '%Y-%m-%d') as 'BirthDate', u.gender, " +
                "u.about_me as 'AboutMe' " +
                "FROM users u " +
-               "WHERE u.role_id = 5 AND u.is_deleted = false AND id = @id;" +
-                "SELECT u.profile_photo FROM users u " +
-                "INNER JOIN photo_album pa " + 
-                "ON pa.album_id = u.id " +
-                "INNER JOIN photos p " + 
-                "ON p.photo_album_id = pa.id " + 
-                "WHERE u.id = @id;" +
-                "COMMIT;";
+               "WHERE u.role_id = 5 AND u.is_deleted = false AND id = @id;";
             using MySqlConnection con = new MySqlConnection($"Server=localhost;Database=facebook_lite;Uid=root;Pwd=;");
             foundUser = con.QuerySingle<User>(query, new { @id = id});
             return foundUser;

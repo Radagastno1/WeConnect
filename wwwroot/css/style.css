@@ -150,3 +150,21 @@ li {
     font-size: x-large;
     list-style: none;
 }
+#allFriendsPhotos{
+    width: 80px;
+    height: 80px;
+}
+#profilePhoto{
+    width: 140px;
+    height: 200px;
+}
+#profilePresentation{
+    position: absolute;
+    left: 300px;
+    top: 400px;
+    font-size: xx-large;
+}
+#aboutme{
+    font-size: large;
+}
+

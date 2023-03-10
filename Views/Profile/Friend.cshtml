@@ -14,8 +14,15 @@
     <a href="/Account/signout" id="signout">Sign out</a>
 </div>
 
-<dt>
+<dt id=profilePresentation>
+               @if(Model.ProfilePhoto != null)
+            {
+ <img src="@Html.Raw(Model.ProfilePhoto.ImageUrl)" id="profilePhoto">
+
+            }
     @Html.DisplayFor(model => model.FirstName)
     @Html.DisplayFor(model => model.LastName)
+    <div id=aboutme>@Html.DisplayFor(model => model.Gender)
+   @Html.DisplayFor(model => model.AboutMe)</div>
 </dt>
 
