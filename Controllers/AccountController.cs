@@ -80,6 +80,12 @@ public class AccountController : Controller
         }
     }
 
+    public ActionResult SignOut()
+    {
+        HttpContext.Session.Clear();
+        return RedirectToAction("Index", "Home");
+    }
+
     private List<FriendViewModel> FriendsToViewModel(List<User> users)
     {
         return users.Select(u => UserToFriendViewModel(u)).ToList();
