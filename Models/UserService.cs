@@ -18,22 +18,20 @@ public class UserService
 
     public User GetUserById(int? id)
     {
+        if (id == null)
+        {
+            return null;
+        }
         try
         {
             var user = _usersDB.GetUserById(id);
             var photo = _photoDB.GetProfilePhoto(user);
-            if (photo == null)
-            {
-                user.ProfilePhoto = new Photo();
-            }
-            else
-            {
-                user.ProfilePhoto = photo;
-            }
+            user.ProfilePhoto = photo ?? new Photo();
             return user;
         }
-        catch
+        catch (InvalidOperationException)
         {
+            // Handle specific exception
             return null;
         }
     }
