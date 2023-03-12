@@ -43,6 +43,23 @@ public class FriendService
         }
     }
 
+    public bool IsFriends(User user, int friendId)
+    {
+        try
+        {
+            if (_friendsDB.CheckIfFriend(user, friendId) > 0)
+            {
+                return true;
+            }
+            else
+                return false;
+        }
+        catch (InvalidOperationException)
+        {
+            return false;
+        }
+    }
+
     public void Update(User user)
     {
         List<int> friendRequestsIds = _friendsDB.GetMyFriendRequests(user);

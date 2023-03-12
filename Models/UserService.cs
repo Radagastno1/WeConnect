@@ -31,7 +31,6 @@ public class UserService
         }
         catch (InvalidOperationException)
         {
-            // Handle specific exception
             return null;
         }
     }

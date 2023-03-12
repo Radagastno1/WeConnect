@@ -117,4 +117,5 @@ public class AccountController : Controller
             ProfilePhoto = user.ProfilePhoto
         };
     }
+
 }

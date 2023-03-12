@@ -18,7 +18,7 @@
 
 @foreach (var item in Model)
 {
-    <a asp-controller="Profile" asp-action="Friend" asp-route-id="@item.ID">
+    <a asp-controller="Profile" asp-action="ShowProfile" asp-route-id="@item.ID">
         <li>
              @if(item.ProfilePhoto.ImageUrl == null)
             {

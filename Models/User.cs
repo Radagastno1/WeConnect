@@ -15,7 +15,7 @@ public class User
     public Roles Role { get; private set; }
     public string AboutMe { get; set; }
     public List<User> MyFriends { get; set; } = new();
-    public int FriendStatus { get; set; }
+    public string FriendStatus { get; set; }
     public Photo ProfilePhoto{get;set;}
 
     public User() { }

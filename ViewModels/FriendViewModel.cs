@@ -14,4 +14,5 @@ public class FriendViewModel
     public string Gender { get; set; }
     public string AboutMe { get; set; }
     public Photo ProfilePhoto { get; set; } = new();
+    public string FriendStatus{get;set;}
 }

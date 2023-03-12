@@ -47,22 +47,59 @@ public class ProfileController : Controller
     //         return RedirectToAction("Index", "Home");
     //     }
     // }
-
-    public ActionResult<FriendViewModel> Friend(int? id)
+    public ActionResult ShowProfile(int? id)
     {
         try
         {
+            //this is me
             var userId = HttpContext.Session.GetInt32("UserId");
             var user = _userService.GetUserById(userId);
+            //kollar om den finns bland mina vänner, ev ladda hem mina vänner från början??
             var friendsAsUsers = _friendService.GetMine(user);
             var friendsAsViewModels = FriendsToViewModel(friendsAsUsers);
             var friendToVisit = friendsAsViewModels.Find(f => f.ID == id);
-            return View(friendToVisit);
+            if (friendToVisit == null)
+            {
+                //OBS måste komma logik som rensar bort blockerade eller som blockerat mig!!
+                var userToVisit = _userService.GetUserById(id);
+                return RedirectToAction("NonFriend", "Profile", userToVisit);
+            }
+            return RedirectToAction("Friend", "Profile", friendToVisit);
         }
         catch
         {
-            return RedirectToAction("Index", "Account");
+            return RedirectToAction("Error", "Profile");
         }
+    }
+
+    public ActionResult<FriendViewModel> Friend(FriendViewModel friend)
+    {
+        try
+        {
+            return View(friend);
+        }
+        catch
+        {
+            return RedirectToAction("Error", "Profile");
+        }
+    }
+
+    public ActionResult<FriendViewModel> NonFriend(FriendViewModel userToVisit)
+    {
+        try
+        {
+            //BEHÖVER GÖRA EN NONFRIENDVIEWMODEL och kolla lägga till publikt osv.....
+            return View(userToVisit);
+        }
+        catch
+        {
+            return RedirectToAction("Error", "Profile");
+        }
+    }
+
+    public ActionResult Error()
+    {
+        return View();
     }
 
     private List<FriendViewModel> FriendsToViewModel(List<User> users)
@@ -81,7 +118,32 @@ public class ProfileController : Controller
             BirthDate = user.BirthDate,
             Gender = user.Gender,
             AboutMe = user.AboutMe,
-            ProfilePhoto = user.ProfilePhoto
+            ProfilePhoto = user.ProfilePhoto,
+            FriendStatus = SetFriendStatus(user)
         };
+    }
+
+    private string SetFriendStatus(User friend)
+    {
+        var userId = HttpContext.Session.GetInt32("UserId");
+        var user = _userService.GetUserById(userId);
+        string status = string.Empty;
+        if (_friendService.IsFriends(user, friend.ID))
+        {
+            status = "Friends";
+        }
+        else if (_friendService.IsBefriended(user, friend.ID))
+        {
+            status = "Friend request waiting";
+        }
+        else if (_friendService.IsFriendRequestWaiting(user, friend.ID))
+        {
+            status = "Confirm friend request";
+        }
+        else
+        {
+            status = "Add friend";
+        }
+        return status;
     }
 }
