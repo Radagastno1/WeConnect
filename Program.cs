@@ -20,6 +20,8 @@ builder.Services.AddScoped<WeConnect.Models.FriendService>();
 builder.Services.AddScoped<WeConnect.Models.ConversationService>();
 builder.Services.AddScoped<WeConnect.Data.PhotoDB>();
 
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

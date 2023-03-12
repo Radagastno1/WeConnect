@@ -6,11 +6,13 @@ public class FriendService
 {
     FriendsDB _friendsDB;
     PhotoDB _photoDB;
+    Action<User>UpdatingFriendStatus;
 
     public FriendService(FriendsDB friendsDB, PhotoDB photoDB)
     {
         _friendsDB = friendsDB;
         _photoDB = photoDB;
+        UpdatingFriendStatus += Update;
     }
 
     public int Create(User user, int friendId)
@@ -18,6 +20,7 @@ public class FriendService
         try
         {
             _friendsDB.Create(user, friendId);
+            UpdatingFriendStatus?.Invoke(user);
             return 1;
         }
         catch (InvalidOperationException)

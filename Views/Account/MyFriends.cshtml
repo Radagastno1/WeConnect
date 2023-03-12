@@ -22,12 +22,11 @@
         <li>
              @if(item.ProfilePhoto.ImageUrl == null)
             {
-                <img src="https://lh3.googleusercontent.com/sMrevMJlVrUL0vk7mVGQNd69l2rJYAfdG4lGTcVId5s8pRnXYO8mTi9cVddmA5SGdWekKgKsJFKZDlQYvzsw0vUewIq0sRg9ao1EYajHCrofSxAkUgpwkUgQY6TNUvdnsVN3PHqffSWpYxOfKrYWUHiUnRXRQeVRSGmOrlWJLJhMkDq4JLmDywRFvderNIUaXlY_yZcsRq3nRa16Oo4cMKCgsjkrorwgaEF99a8BmzzunsHihVvnW6T3yDWYCS3M3zfzYDCRv6ijF5STFHgT8sD-9XCSp38YV0-MdP2koGuPTjALnIaYMwpB9nJ75kV5arUjIy05o65uuGULQdak9crqs7YxWBLF5QlLLDzcTOs1ItfNmkMnEx8gU2mysLp1E4OTWK3IEpvPNvgkNAhR3GrIAYrQfnIeQ93BQqBnk-VVE1jB1VtI4o9k5dVNEKJpUz4L40KoNWUoCcYMGPch6rMR9BgTX2DxCtXTK4Jf5RPU-6sUZfVPI2hq69xGxw-X5qctY4OZ7sflZTlJCOwHdE-fReUn6UMU7vWsDcLkGcQc6vQmAj2Ahzd7Mi9UWylmBivXZbB5O_XJjladYYjj4sblstzg9fYD-BMa67xIbgK9KpnX4poi8s1SlZpkQ4rbRXysApw6RB5njRz0PNGHamnex0b6U5ZgwX8Z0tn-xXwmDlORzTDuNili5PzlX1GsbdSVTUKTbbXAkT_SeZ0k9McnPf0id9dkqy1DuST3AbTGwomVepSWItCT5mRFPwBIURMMkB6Bm98D7u9dgf45ydOe57TQf2bXQ13aqWqU46c-4z7TByJuRIhHt6moSR82DvoSMRRzPFy2RAvam-d1RMwSrPITkIW2Qd6LP6tEsrGg3Zfddrkl1VICFusLUfNnFkAbeUtYA_bGQpAgQxO4Tag1rByGRNkKNr3RAYU4wQc_=s512-no?authuser=0" id="profilePhoto">
+                <img src="https://lh3.googleusercontent.com/rxxBfL2ClP8JYXHkx8tSIVEKZFnGozrRcFgPFR4Y9PF0crMthyBU0TrwT2McsV4G7mNNb-pQRltxGIaOJcExg7iob2B4cwB6D2OANPwMx6kNiESBBxWTSIGSEtGmgFw4fjt8eVJSOCqN-T1wkfr7p3gHGZVocZ4GPeiWQsM-HGGw4I_NUONpbz1AKDPzGNs9gYG5QSnMin729CSfZncDTz0zEmBIEazlSix65GSLhPXFKpAGVAdbz6pI_UJepmjV9N8sms9Lt3lQGoX2-CYT5bShRNXW8aAa01HsdA4G_0FHDGJsC2pxRcYuecYbOSuf4dAZib7HYhbMkFynhLXbC94hstnLgMf-LnMMiSrOYfyST0mz8fFRJIemnxxUdtUkuk7A83oNOvWZ5fCnEqnyQSVBsfBrzoqzW33J0AAh9S0LsBwTTMTqRW24DYadHznWnY73rJ7iHSDRc3vpiQlMfDtNhE4HoP6bDcGNIa3Y-blOy_-0B9qakOBwSb-SCnbJidzDVQJC6YuWqA39AV4xN3TCM9MyKBgWIYFkwaQBCJqtSW0KoYnyY7k6rAGXPwGq956oeO48YZps6V7Zw72B1mju0wiXgnKRVDLpWNah5qvrGBVUcfrTxVPVzbl0VXW9ei5JukcPYQu_sjFCB47NmMxw5nnnmiQSPm60NDIP9YrSO4G_dq2DBZumHrwDkkJNENjq5Tu49HRXXNZuIVkfAM8VVB4ztb6-7LvRR6P56ExMluMiiR_-GzAxmjbpL5hOFS8FSx22qcYu7zJ7ePdLt33EDtsizc5kopUxnO_Ytm8WMQ_evVuWfBkXB2SUVGDtQ2JHwPeJj8qNXo3QKzLcVMbHltgb-kCbI9TY8YsxNkCRoIMHfYUvcKjcx6B6bHMNkrVTNOlKAebOcto-Hmlr3z9pbFxilUPtfJJYIM0QkcIO=s512-no?authuser=0" id="profilePhoto">
             }
             else
             {
  <img src="@Html.Raw(item.ProfilePhoto.ImageUrl)" id="allFriendsPhotos">
-
             }
             @Html.DisplayFor(x => item.FirstName)
             @Html.DisplayFor(x => item.LastName)

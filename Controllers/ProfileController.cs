@@ -56,15 +56,15 @@ public class ProfileController : Controller
             var user = _userService.GetUserById(userId);
             //kollar om den finns bland mina vänner, ev ladda hem mina vänner från början??
             var friendsAsUsers = _friendService.GetMine(user);
-            var friendsAsViewModels = FriendsToViewModel(friendsAsUsers);
-            var friendToVisit = friendsAsViewModels.Find(f => f.ID == id);
+            var friendToVisit = friendsAsUsers.Find(f => f.ID == id);
             if (friendToVisit == null)
             {
                 //OBS måste komma logik som rensar bort blockerade eller som blockerat mig!!
                 var userToVisit = _userService.GetUserById(id);
-                return RedirectToAction("NonFriend", "Profile", userToVisit);
+
+                return RedirectToAction("NonFriend", "Profile", UserToFriendViewModel(userToVisit));
             }
-            return RedirectToAction("Friend", "Profile", friendToVisit);
+            return RedirectToAction("Friend", "Profile", UserToFriendViewModel(friendToVisit));
         }
         catch
         {
