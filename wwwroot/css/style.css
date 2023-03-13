@@ -12,6 +12,8 @@ h1 {
 
 a {
     text-decoration: none;
+    color: rgb(8, 51, 95);
+    font-weight: bold;
 }
 
 #mySidenav a {
@@ -184,4 +186,11 @@ li {
 .aboutMeText {
     font-size: 14px;
     margin-top: 0;
+}
+#icon{
+    width: 75px;
+    height: 75px;
+}
+#icons-menu{
+    color: #ec8135;
 }

@@ -2,6 +2,7 @@ using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using WeConnect.Models;
 using WeConnect.ViewModels;
+using Newtonsoft.Json;
 
 namespace WeConnect.Controllers;
 
@@ -10,16 +11,19 @@ public class AccountController : Controller
     private readonly FriendService _friendService;
     private readonly UserService _userService;
     private readonly ConversationService _conversationService;
+    private readonly NotificationService _notificationService;
 
     public AccountController(
         FriendService friendService,
         UserService userService,
-        ConversationService conversationService
+        ConversationService conversationService,
+        NotificationService notificationService
     )
     {
         _friendService = friendService;
         _userService = userService;
         _conversationService = conversationService;
+        _notificationService = notificationService;
     }
 
     public IActionResult Index()
@@ -28,18 +32,20 @@ public class AccountController : Controller
         {
             var userId = HttpContext.Session.GetInt32("UserId");
             var user = _userService.GetUserById(userId);
+            var notifications = _notificationService.GetUnreadNotifications(user);
+            var myViewModel = UserToMyViewModel(user, notifications);
             if (user == null)
             {
                 return RedirectToAction("Index", "Home");
             }
-            var homePageViewModel = new HomePageViewModel
-            {
-                Id = user.ID,
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                Email = user.Email
-            };
-            return View(homePageViewModel);
+            // var homePageViewModel = new HomePageViewModel
+            // {
+            //     Id = user.ID,
+            //     FirstName = user.FirstName,
+            //     LastName = user.LastName,
+            //     Email = user.Email
+            // };
+            return View(myViewModel);
         }
         catch (Exception e)
         {
@@ -85,6 +91,15 @@ public class AccountController : Controller
         return View(usersAsFriendViewModels);
     }
 
+    public ActionResult Notifications()
+    {
+        var userId = HttpContext.Session.GetInt32("UserId");
+        var user = _userService.GetUserById(userId);
+        var notifications = _notificationService.GetUnreadNotifications(user);
+        var serializedNotifications = JsonConvert.SerializeObject(notifications);
+        return Json(serializedNotifications);
+    }
+
     private List<FriendViewModel> FriendsToViewModel(List<User> users)
     {
         return users.Select(u => UserToFriendViewModel(u)).ToList();
@@ -102,4 +117,19 @@ public class AccountController : Controller
         };
     }
 
+    private MyViewModel UserToMyViewModel(User user, List<Notification> notifications)
+    {
+        return new MyViewModel
+        {
+            Id = user.ID,
+            FirstName = user.FirstName,
+            LastName = user.LastName,
+            Email = user.Email,
+            Password = user.PassWord,
+            BirthDate = user.BirthDate,
+            Gender = user.Gender,
+            AboutMe = user.AboutMe,
+            Notifications = notifications ?? new List<Notification>()
+        };
+    }
 }

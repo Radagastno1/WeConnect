@@ -12,7 +12,8 @@ public class MyViewModel
     public string Email { get; set; }
     public string Password { get; set; }
     public string BirthDate { get; set; }
-    public string Gender { get; private set; }
+    public string Gender { get;  set; }
     public string AboutMe { get; set; }
     public List<FriendViewModel> MyFriends { get; set; } = new();
+    public List<Notification> Notifications{get;set;} = new();
 }

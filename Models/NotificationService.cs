@@ -1,5 +1,5 @@
-using WeConnect.Models;
-namespace WeConnect.Data;
+using WeConnect.Data;
+namespace WeConnect.Models;
 public class NotificationService
 {
     //utv: man ska kunna välja notis och komma till själva händelsen, tex vänförfråg-sida
