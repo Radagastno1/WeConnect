@@ -19,6 +19,7 @@ builder.Services.AddScoped<WeConnect.Models.UserService>();
 builder.Services.AddScoped<WeConnect.Models.FriendService>();
 builder.Services.AddScoped<WeConnect.Models.ConversationService>();
 builder.Services.AddScoped<WeConnect.Data.PhotoDB>();
+builder.Services.AddScoped<WeConnect.Models.MessgageService>();
 
 
 

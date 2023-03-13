@@ -47,7 +47,7 @@ public class ProfileController : Controller
     //         return RedirectToAction("Index", "Home");
     //     }
     // }
-    public ActionResult ShowProfile(int? id)
+    public ActionResult ShowProfile(int id)
     {
         try
         {

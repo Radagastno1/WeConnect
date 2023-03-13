@@ -48,7 +48,7 @@ else if (@Model.FriendStatus == "Confirm friend request")
 }
 else if(@Model.FriendStatus == "Friend request waiting")
 {
-     <form asp-controller="FriendRequest" asp-action="AddFriend" asp-route-id="@Model.ID" method="post">
+     <form asp-controller="FriendRequest" asp-action="AddFriend" asp-for="ID" method="post">
         <button type="submit" class="btn btn-primary">Waiting For Accepting</button>
     </form>
 }

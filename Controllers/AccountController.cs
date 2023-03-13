@@ -64,22 +64,6 @@ public class AccountController : Controller
         }
     }
 
-    public ActionResult<Conversation> Chat()
-    {
-        try
-        {
-            var userId = HttpContext.Session.GetInt32("UserId");
-            var user = _userService.GetUserById(userId);
-            List<int> conversationIds = _conversationService.GetAllMyConversationsIds(user);
-            List<Conversation> myConversations = _conversationService.GetById(conversationIds);
-            return View(myConversations);
-        }
-        catch
-        {
-            return RedirectToAction("index");
-        }
-    }
-
     public ActionResult SignOut()
     {
         HttpContext.Session.Clear();

@@ -34,7 +34,11 @@
     <p>About me: @Model.AboutMe</p>
     <div>@Model.FriendStatus</div>
 </div>
-
+@* //FIXA HÄR SÅ MAN KOMMER TILL CHATTEN :)
+ <form asp-controller="Chat??" asp-action="AddFriend" asp-route-id="@Model.ID" method="post">
+        <button type="submit" class="btn btn-primary">Chat With Me</button>
+    </form>
+ *@
 
 
 

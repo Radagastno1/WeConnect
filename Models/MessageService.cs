@@ -1,11 +1,11 @@
 using WeConnect.Data;
 namespace WeConnect.Models;
 
-public class MessgageManager 
+public class MessgageService
 {   
     MessagesDB _messagesDB;
      CrudDB<Message> _crudDB;
-    public MessgageManager(MessagesDB messagesDB, CrudDB<Message> crudDB)
+    public MessgageService(MessagesDB messagesDB, CrudDB<Message> crudDB)
     {
         _messagesDB = messagesDB;
         _crudDB = crudDB;

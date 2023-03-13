@@ -1,0 +1,47 @@
+@model WeConnect.ViewModels.FriendViewModel
+@{
+    ViewData["Title"] = @Model.FirstName;
+}
+
+<div id="mySidenav" class="sidenav">
+    <a href="/Account/myfriends" id="myfriends">My Friends</a>
+    <a href="/Account/chat" id="myconversations">My Conversations</a>
+    <a href="/Account/mymeetings" id="mymeetings">My Meetings</a>
+</div>
+
+<div id="myRightSidenav" class="rightsidenav">
+    <a href="/Account/search" id="search">Search</a>
+    <a href="/Account/signout" id="signout">Sign out</a>
+</div>
+
+<div id="profileHeader">
+    @if (Model.ProfilePhoto == null || Model.ProfilePhoto.ImageUrl == null)
+    {
+        <img src="https://lh3.googleusercontent.com/rxxBfL2ClP8JYXHkx8tSIVEKZFnGozrRcFgPFR4Y9PF0crMthyBU0TrwT2McsV4G7mNNb-pQRltxGIaOJcExg7iob2B4cwB6D2OANPwMx6kNiESBBxWTSIGSEtGmgFw4fjt8eVJSOCqN-T1wkfr7p3gHGZVocZ4GPeiWQsM-HGGw4I_NUONpbz1AKDPzGNs9gYG5QSnMin729CSfZncDTz0zEmBIEazlSix65GSLhPXFKpAGVAdbz6pI_UJepmjV9N8sms9Lt3lQGoX2-CYT5bShRNXW8aAa01HsdA4G_0FHDGJsC2pxRcYuecYbOSuf4dAZib7HYhbMkFynhLXbC94hstnLgMf-LnMMiSrOYfyST0mz8fFRJIemnxxUdtUkuk7A83oNOvWZ5fCnEqnyQSVBsfBrzoqzW33J0AAh9S0LsBwTTMTqRW24DYadHznWnY73rJ7iHSDRc3vpiQlMfDtNhE4HoP6bDcGNIa3Y-blOy_-0B9qakOBwSb-SCnbJidzDVQJC6YuWqA39AV4xN3TCM9MyKBgWIYFkwaQBCJqtSW0KoYnyY7k6rAGXPwGq956oeO48YZps6V7Zw72B1mju0wiXgnKRVDLpWNah5qvrGBVUcfrTxVPVzbl0VXW9ei5JukcPYQu_sjFCB47NmMxw5nnnmiQSPm60NDIP9YrSO4G_dq2DBZumHrwDkkJNENjq5Tu49HRXXNZuIVkfAM8VVB4ztb6-7LvRR6P56ExMluMiiR_-GzAxmjbpL5hOFS8FSx22qcYu7zJ7ePdLt33EDtsizc5kopUxnO_Ytm8WMQ_evVuWfBkXB2SUVGDtQ2JHwPeJj8qNXo3QKzLcVMbHltgb-kCbI9TY8YsxNkCRoIMHfYUvcKjcx6B6bHMNkrVTNOlKAebOcto-Hmlr3z9pbFxilUPtfJJYIM0QkcIO=s512-no?authuser=0"
+            id="profilePhoto">
+    }
+    else
+    {
+        <img src="@Html.Raw(Model.ProfilePhoto.ImageUrl)" id="profilePhoto">
+    }
+    <h2 class="profileNameTitle" <span>
+            @Model.FirstName @Model.LastName
+        </span></h2>
+</div>
+<div class="aboutMe">
+    <div>
+        <p>Gender: @Model.Gender</p>
+    <p>About me: @Model.AboutMe</p>
+    <div>@Model.FriendStatus</div>
+</div>
+
+@* //fixa här så controler och metoder finns för settings och edit my page :) 
+ <form asp-controller="FriendRequest" asp-action="AddFriend" asp-route-id="@Model.ID" method="post">
+        <button type="submit" class="btn btn-primary">Edit My Page</button>
+    </form>
+
+     <form asp-controller="FriendRequest" asp-action="AddFriend" asp-route-id="@Model.ID" method="post">
+        <button type="submit" class="btn btn-primary">Settings</button>
+    </form> *@
+
+

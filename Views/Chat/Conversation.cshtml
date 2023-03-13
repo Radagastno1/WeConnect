@@ -1,0 +1,27 @@
+@model List<WeConnect.ViewModels.MessageViewModel>
+@{
+    ViewData["Title"] = "Chat";
+}
+
+<div id="mySidenav" class="sidenav">
+    <a href="/Account/myfriends" id="myfriends">My Friends</a>
+      <a href="/Chat/Index" id="myconversations">My Conversations</a>
+    <a href="/Account/mymeetings" id="mymeetings">My Meetings</a>
+</div>
+
+<div id="myRightSidenav" class="rightsidenav">
+    <a href="/Account/search" id="search">Search</a>
+    <a href="/Account/signout" id="signout">Sign out</a>
+</div>
+
+
+@* @foreach (var item in Model)
+{
+    <div class="sideconversations">
+            <a href="Chat?" id="friendsLinks"> 
+            @Html.DisplayFor(x => item.ParticipantsNames)
+            </a>
+    </div>
+} *@
+
+
