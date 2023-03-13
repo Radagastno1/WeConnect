@@ -46,11 +46,13 @@ public class FriendRequestController : Controller
     {
         try
         {
-            int friendId = id;
             var userId = HttpContext.Session.GetInt32("UserId");
             var user = _userService.GetUserById(userId);
-            _friendService.Create(user, friendId);
-            return RedirectToAction("ShowProfile", "Profile", friendId);
+            _friendService.Create(user, id);
+
+            // HttpContext.Session.SetInt32("FriendId", id);
+            // var friendId = HttpContext.Session.GetInt32("FriendId");
+            return RedirectToAction("ShowProfile", "Profile", new{id = id});
         }
         catch
         {
