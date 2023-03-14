@@ -24,6 +24,7 @@ builder.Services.AddScoped<WeConnect.Models.NotificationService>();
 
 
 
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

@@ -32,19 +32,14 @@ public class AccountController : Controller
         {
             var userId = HttpContext.Session.GetInt32("UserId");
             var user = _userService.GetUserById(userId);
-            var notifications = _notificationService.GetUnreadNotifications(user);
+            var notifications =
+                _notificationService.GetUnreadNotifications(user) ?? new List<Notification>();
+
             var myViewModel = UserToMyViewModel(user, notifications);
             if (user == null)
             {
                 return RedirectToAction("Index", "Home");
             }
-            // var homePageViewModel = new HomePageViewModel
-            // {
-            //     Id = user.ID,
-            //     FirstName = user.FirstName,
-            //     LastName = user.LastName,
-            //     Email = user.Email
-            // };
             return View(myViewModel);
         }
         catch (Exception e)
@@ -91,14 +86,25 @@ public class AccountController : Controller
         return View(usersAsFriendViewModels);
     }
 
-    public ActionResult Notifications()
+    // public ActionResult Notifications()
+    // {
+    //     var userId = HttpContext.Session.GetInt32("UserId");
+    //     var user = _userService.GetUserById(userId);
+    //     var notifications = _notificationService.GetUnreadNotifications(user);
+
+    //     _notificationService.UpdateToRead(user);
+    //     var serializedNotifications = JsonConvert.SerializeObject(notifications);
+    //     return View(serializedNotifications);
+    // }
+
+    [HttpPost]
+    public ActionResult MarkNotificationsAsRead()
     {
         var userId = HttpContext.Session.GetInt32("UserId");
         var user = _userService.GetUserById(userId);
-        var notifications = _notificationService.GetUnreadNotifications(user);
+
         _notificationService.UpdateToRead(user);
-        var serializedNotifications = JsonConvert.SerializeObject(notifications);
-        return View(serializedNotifications);
+        return RedirectToAction("Index", "Account");
     }
 
     private List<FriendViewModel> FriendsToViewModel(List<User> users)
@@ -130,7 +136,27 @@ public class AccountController : Controller
             BirthDate = user.BirthDate,
             Gender = user.Gender,
             AboutMe = user.AboutMe,
-            Notifications = notifications ?? new List<Notification>()
+            Notifications = NotificationsToViewModels(notifications, user) ?? new List<NotificationViewModel>()
         };
+    }
+
+    private List<NotificationViewModel> NotificationsToViewModels(
+        List<Notification> notifications,
+        User user
+    )
+    {
+        return notifications
+            .Select(
+                n =>
+                    new NotificationViewModel(_notificationService.UpdateToRead)
+                    {
+                        Id = n.Id,
+                        NotificationType = n.NotificationType,
+                        ToUser = n.ToUser,
+                        FromUser = n.FromUser,
+                        Description = n.Description
+                    }
+            )
+            .ToList();
     }
 }

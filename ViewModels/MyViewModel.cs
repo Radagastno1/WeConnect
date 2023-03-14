@@ -15,5 +15,5 @@ public class MyViewModel
     public string Gender { get;  set; }
     public string AboutMe { get; set; }
     public List<FriendViewModel> MyFriends { get; set; } = new();
-    public List<Notification> Notifications{get;set;} = new();
+    public List<NotificationViewModel> Notifications{get;set;} = new();
 }

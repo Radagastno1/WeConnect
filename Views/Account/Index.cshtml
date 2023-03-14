@@ -3,6 +3,8 @@
     ViewData["Title"] = "My Page";
 }
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
 <div id="mySidenav" class="sidenav">
     <a href="/Account/myfriends" id="myfriends">My Friends</a>
     <a href="/Chat/Index" id="myconversations">My Conversations</a>
@@ -26,11 +28,20 @@
   </div>
 </div>
 
-@* <div id="icons-menu">
-    <a href="/Account/Notifications">
-        <img src="https://i.imgur.com/FO1DPKO.png" id="icon">
-        <br>Notifications</a>
-</div> *@
+<script>
+  $(document).ready(function() {
+    $(".dropbtn").click(function(e) {
+      e.preventDefault();
+      
+      // Skicka POST-förfrågan och avsluta direkt
+      $.post("/Account/MarkNotificationsAsRead", function() {
+        // Denna funktion körs när servern har behandlat POST-förfrågan
+        // Gör ingenting här
+      });
+    });
+  });
+</script>
+
 
 
 
