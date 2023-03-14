@@ -32,7 +32,7 @@ public class ChatController : Controller
             var user = _userService.GetUserById(userId);
             List<int> conversationIds = _conversationService.GetAllMyConversationsIds(user);
             List<Conversation> myConversations = _conversationService.GetById(conversationIds);
-            var conversationsViewModels = myConversations.Select( c => ConversationToViewModel(c));
+            IEnumerable<ConversationViewModel> conversationsViewModels = myConversations.Select( c => ConversationToViewModel(c));
             return View(conversationsViewModels);
         }
         catch
