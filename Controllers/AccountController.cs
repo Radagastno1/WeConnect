@@ -97,7 +97,7 @@ public class AccountController : Controller
         var user = _userService.GetUserById(userId);
         var notifications = _notificationService.GetUnreadNotifications(user);
         var serializedNotifications = JsonConvert.SerializeObject(notifications);
-        return Json(serializedNotifications);
+        return View(serializedNotifications);
     }
 
     private List<FriendViewModel> FriendsToViewModel(List<User> users)

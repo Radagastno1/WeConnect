@@ -17,11 +17,25 @@
     <a href="/Account/signout" id="signout">Sign out</a>
 </div>
 
-<div id="icons-menu">
+
+
+<div class="dropdown">
+  <a href class="dropbtn">
+     <img src="https://i.imgur.com/FO1DPKO.png" id="icon">
+     <br>Notifications</a>
+  <div class="dropdown-content">
+    @foreach (var item in @Model.Notifications)
+    {
+       <a href="#">@item.FromUser @item.Description</a>
+    }
+  </div>
+</div>
+
+@* <div id="icons-menu">
     <a href="/Account/Notifications">
         <img src="https://i.imgur.com/FO1DPKO.png" id="icon">
         <br>Notifications</a>
-</div>
+</div> *@
 
 
 
