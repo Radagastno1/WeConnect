@@ -96,6 +96,7 @@ public class AccountController : Controller
         var userId = HttpContext.Session.GetInt32("UserId");
         var user = _userService.GetUserById(userId);
         var notifications = _notificationService.GetUnreadNotifications(user);
+        _notificationService.UpdateToRead(user);
         var serializedNotifications = JsonConvert.SerializeObject(notifications);
         return View(serializedNotifications);
     }

@@ -113,6 +113,10 @@ button:hover {
     background-color: #c37748;
     /* Red */
 }
+#mypage
+{
+    top: 250px;
+}
 
 #welcome {
     display: flex;
