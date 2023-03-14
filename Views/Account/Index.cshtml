@@ -28,6 +28,19 @@
   </div>
 </div>
 
+<div class="dropdown">
+  <a href class="dropbtn">
+     <img src="https://i.imgur.com/683w7qg.png" id="icon">
+     <br>Friend Requests</a>
+  <div class="dropdown-content">
+    @* @foreach (var item in @Model.Notifications)
+    {
+       <a href="#">@item.FromUser @item.Description</a>
+    } *@
+  </div>
+</div>
+
+
 <script>
   $(document).ready(function() {
     $(".dropbtn").click(function(e) {

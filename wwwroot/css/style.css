@@ -236,4 +236,8 @@ li {
   .dropdown:hover .dropdown-content {
     display: block;
   }
+  .profiles{
+    display: block;
+    margin-bottom: 10px;
+  }
   

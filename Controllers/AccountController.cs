@@ -32,6 +32,7 @@ public class AccountController : Controller
         {
             var userId = HttpContext.Session.GetInt32("UserId");
             var user = _userService.GetUserById(userId);
+
             var notifications =
                 _notificationService.GetUnreadNotifications(user) ?? new List<Notification>();
 
