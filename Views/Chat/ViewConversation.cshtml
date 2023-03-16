@@ -1,4 +1,4 @@
-@model List<WeConnect.ViewModels.MessageViewModel>
+@model WeConnect.ViewModels.MyMessagesViewModel
 @{
     ViewData["Title"] = "Chat";
 }
@@ -15,18 +15,41 @@
     <a href="/Account/signout" id="signout">Sign out</a>
 </div>
 
-@* //DE SENASTE 4 MEDDELANDENA DÅ??? *@
 
-@foreach (var item in Model)
-{
-    <div class="chatcontainer">
-        <img src="https://icons.veryicon.com/png/o/miscellaneous/basic-icon/message-54.png" alt="Avatar">
-        <p>@item.Sender</p>
-        <p>@item.Content</p>
-        <span class="time-right">@item.DateCreated</span>
-    </div>
-}
+<div class="chat-window">
+    @foreach (var item in Model.MessageViewModels)
+    {
+        @if (item.SenderId == Model.MyViewModel.Id)
+        {
+            <div class="darker">
+                <img src="https://icons.veryicon.com/png/o/miscellaneous/basic-icon/message-54.png" alt="Avatar">
+                <p>@item.Sender</p>
+                <p>@item.Content</p>
+                <span class="time-right">@item.DateCreated</span>
+            </div>
+        }
+        else
+        {
+            <div class="chatcontainer">
+                <img src="https://icons.veryicon.com/png/o/miscellaneous/basic-icon/message-54.png" alt="Avatar">
+                <p>@item.Sender</p>
+                <p>@item.Content</p>
+                <span class="time-right">@item.DateCreated</span>
+            </div>
+        }
+    }
+    <textarea placeholder="Type message.." name="Content" required></textarea>
 
+    <button type="submit" class="btn">Send</button>
+</div>
+
+<script>
+    window.onload = function () {
+        var chatWindow = document.querySelector(".chat-window");
+        chatWindow.scrollTop = chatWindow.scrollHeight;
+    }
+
+</script>
 
 @*
 <div class="container darker">

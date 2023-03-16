@@ -52,8 +52,10 @@ public class ChatController : Controller
             var userId = HttpContext.Session.GetInt32("UserId");
             var user = _userService.GetUserById(userId);
             var messages = _messageService.GetAll(ID, user);
-            List<MessageViewModel> messagesViewModels = messages.Select(m => MessageToViewModel(m)).ToList();
-            return View(messagesViewModels);
+            List<MessageViewModel> messagesViewModels = messages
+                .Select(m => MessageToViewModel(m))
+                .ToList();
+            return View(GenerateMyMessagesViewModel(user, messagesViewModels));
         }
         catch
         {
@@ -99,7 +101,35 @@ public class ChatController : Controller
             Content = message.Content,
             DateCreated = message.DateCreated,
             Reciever = message.Reciever,
-            Sender = message.Sender
+            Sender = message.Sender,
+            SenderId = message.SenderId
+        };
+    }
+
+    private MyMessagesViewModel GenerateMyMessagesViewModel(
+        User user,
+        List<MessageViewModel> messageViewModels
+    )
+    {
+        return new MyMessagesViewModel
+        {
+            MyViewModel = UserToMyViewModel(user),
+            MessageViewModels = messageViewModels
+        };
+    }
+
+    private MyViewModel UserToMyViewModel(User user)
+    {
+        return new MyViewModel
+        {
+            Id = user.ID,
+            FirstName = user.FirstName,
+            LastName = user.LastName,
+            Email = user.Email,
+            Password = user.PassWord,
+            BirthDate = user.BirthDate,
+            Gender = user.Gender,
+            AboutMe = user.AboutMe
         };
     }
 }

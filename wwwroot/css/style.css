@@ -255,11 +255,14 @@ li {
     margin: 10px 0;
   }
   
-  /* Darker chat container
+
   .darker {
     border-color: #ccc;
     background-color: #ddd;
-  } */
+    border-radius: 5px;
+    padding: 10px;
+    margin: 10px
+  }
   
   /* Clear floats */
   .container::after {
@@ -295,3 +298,10 @@ li {
     float: left;
     color: #999;
   }
+
+  .chat-window{
+    max-height: 350px;
+    width: 300px;
+    overflow-y: auto; 
+  }
+ 
