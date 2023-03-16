@@ -44,14 +44,14 @@ public class ChatController : Controller
         }
     }
 
-    public ActionResult ViewConversation(int ID)
+    public ActionResult ViewConversation(int id)
     {
         //spara messages till conversations meddelande ??
         try
         {
             var userId = HttpContext.Session.GetInt32("UserId");
             var user = _userService.GetUserById(userId);
-            var messages = _messageService.GetAll(ID, user);
+            var messages = _messageService.GetAll(id, user);
             List<MessageViewModel> messagesViewModels = messages
                 .Select(m => MessageToViewModel(m))
                 .ToList();
@@ -76,7 +76,7 @@ public class ChatController : Controller
             _messageService.Create(content, senderId: user.ID, conversationId);
             var messages = _messageService.GetAll(conversationId, user);
             var messagesViewModels = messages.Select(m => MessageToViewModel(m));
-            return RedirectToAction("ViewConversation", "Chat", messagesViewModels);
+            return RedirectToAction("ViewConversation", "Chat", new{id = conversationId});
         }
         catch
         {
@@ -102,7 +102,8 @@ public class ChatController : Controller
             DateCreated = message.DateCreated,
             Reciever = message.Reciever,
             Sender = message.Sender,
-            SenderId = message.SenderId
+            SenderId = message.SenderId,
+            ConversationId = message.ConversationId
         };
     }
 

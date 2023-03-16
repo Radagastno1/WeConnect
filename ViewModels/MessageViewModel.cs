@@ -8,5 +8,6 @@ public class MessageViewModel
     public string Reciever { get; set; }
     public string Sender { get; set; }
     public int SenderId { get; set; }
+    public int ConversationId { get; set; }
     public MyViewModel MyViewModel { get; set; }
 }

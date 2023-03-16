@@ -15,40 +15,31 @@
     <a href="/Account/signout" id="signout">Sign out</a>
 </div>
 
-
-<div class="chat-window">
-    @foreach (var item in Model.MessageViewModels)
-    {
-        @if (item.SenderId == Model.MyViewModel.Id)
+<form method="post" asp-action="SendMessage">
+    <div class="chat-window">
+        @foreach (var item in Model.MessageViewModels)
         {
-            <div class="darker">
+            <div class="@((item.SenderId == Model.MyViewModel.Id) ? "darker" : "chatcontainer")">
                 <img src="https://icons.veryicon.com/png/o/miscellaneous/basic-icon/message-54.png" alt="Avatar">
                 <p>@item.Sender</p>
                 <p>@item.Content</p>
                 <span class="time-right">@item.DateCreated</span>
             </div>
+            @if (item == Model.MessageViewModels.Last())
+            {
+                <input type="hidden" name="ConversationId" value="@item.ConversationId" />
+            }
         }
-        else
-        {
-            <div class="chatcontainer">
-                <img src="https://icons.veryicon.com/png/o/miscellaneous/basic-icon/message-54.png" alt="Avatar">
-                <p>@item.Sender</p>
-                <p>@item.Content</p>
-                <span class="time-right">@item.DateCreated</span>
-            </div>
-        }
-    }
-    <textarea placeholder="Type message.." name="Content" required></textarea>
-
-    <button type="submit" class="btn">Send</button>
-</div>
+        <textarea placeholder="Type message.." name="Content" required></textarea>
+        <button type="submit" class="btn">Send</button>
+    </div>
+</form>
 
 <script>
     window.onload = function () {
         var chatWindow = document.querySelector(".chat-window");
         chatWindow.scrollTop = chatWindow.scrollHeight;
     }
-
 </script>
 
 @*
