@@ -15,7 +15,8 @@ public class ChatController : Controller
     public ChatController(
         FriendService friendService,
         UserService userService,
-        ConversationService conversationService, MessgageService messgageService
+        ConversationService conversationService,
+        MessgageService messgageService
     )
     {
         _friendService = friendService;
@@ -32,7 +33,9 @@ public class ChatController : Controller
             var user = _userService.GetUserById(userId);
             List<int> conversationIds = _conversationService.GetAllMyConversationsIds(user);
             List<Conversation> myConversations = _conversationService.GetById(conversationIds);
-            IEnumerable<ConversationViewModel> conversationsViewModels = myConversations.Select( c => ConversationToViewModel(c));
+            IEnumerable<ConversationViewModel> conversationsViewModels = myConversations.Select(
+                c => ConversationToViewModel(c)
+            );
             return View(conversationsViewModels);
         }
         catch
@@ -41,15 +44,15 @@ public class ChatController : Controller
         }
     }
 
-    public ActionResult Conversation(int conversationId)
+    public ActionResult ViewConversation(int ID)
     {
         //spara messages till conversations meddelande ??
         try
         {
             var userId = HttpContext.Session.GetInt32("UserId");
             var user = _userService.GetUserById(userId);
-            var messages = _messageService.GetAll(conversationId, user);
-             var messagesViewModels = messages.Select(m => MessageToViewModel(m));
+            var messages = _messageService.GetAll(ID, user);
+            List<MessageViewModel> messagesViewModels = messages.Select(m => MessageToViewModel(m)).ToList();
             return View(messagesViewModels);
         }
         catch
@@ -59,33 +62,39 @@ public class ChatController : Controller
     }
 
     [HttpPost]
-    public ActionResult SendMessage(Message message, int conversationId)
+    public ActionResult SendMessage(string content, int conversationId)
     {
         try
         {
-            //obs meddelandet måste ha conversationid samt user.id på sig här
             var userId = HttpContext.Session.GetInt32("UserId");
             var user = _userService.GetUserById(userId);
-            _messageService.Create(message);
+
+            //MÅSTE KOMMA IN ETT CONVERSATIONID!
+
+            _messageService.Create(content, senderId: user.ID, conversationId);
             var messages = _messageService.GetAll(conversationId, user);
             var messagesViewModels = messages.Select(m => MessageToViewModel(m));
-            return RedirectToAction("Conversation", "Chat", messagesViewModels);
+            return RedirectToAction("ViewConversation", "Chat", messagesViewModels);
         }
         catch
         {
             return RedirectToAction("index");
         }
     }
+
     private ConversationViewModel ConversationToViewModel(Conversation conversation)
     {
-        return new ConversationViewModel{
+        return new ConversationViewModel
+        {
             ID = conversation.ID,
             ParticipantsNames = conversation.ParticipantsNames
         };
     }
+
     private MessageViewModel MessageToViewModel(Message message)
     {
-        return new MessageViewModel{
+        return new MessageViewModel
+        {
             ID = message.ID,
             Content = message.Content,
             DateCreated = message.DateCreated,

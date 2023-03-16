@@ -1,0 +1,54 @@
+@model List<WeConnect.ViewModels.MessageViewModel>
+@{
+    ViewData["Title"] = "Chat";
+}
+
+<div id="mySidenav" class="sidenav">
+    <a href="/Account/Index" id="mypage"><img src="https://i.imgur.com/ZKWyvlp.png" id="icon"><br>My Page</a>
+    <a href="/Account/myfriends" id="myfriends">My Friends</a>
+    <a href="/Chat/Index" id="myconversations">My Conversations</a>
+    <a href="/Account/mymeetings" id="mymeetings">My Meetings</a>
+</div>
+
+<div id="myRightSidenav" class="rightsidenav">
+    <a href="/Account/search" id="search">Search</a>
+    <a href="/Account/signout" id="signout">Sign out</a>
+</div>
+
+@* //DE SENASTE 4 MEDDELANDENA DÅ??? *@
+
+@foreach (var item in Model)
+{
+    <div class="chatcontainer">
+        <img src="https://icons.veryicon.com/png/o/miscellaneous/basic-icon/message-54.png" alt="Avatar">
+        <p>@item.Sender</p>
+        <p>@item.Content</p>
+        <span class="time-right">@item.DateCreated</span>
+    </div>
+}
+
+
+@*
+<div class="container darker">
+<img src="/w3images/avatar_g2.jpg" alt="Avatar" class="right">
+<p>@Model[2].Sender</p>
+<p>@Model[2].Content</p>
+<span class="time-left">@Model[2].DateCreated</span>
+</div>
+
+<div class="container">
+<img src="/w3images/bandmember.jpg" alt="Avatar">
+<p>@Model[1].Sender</p>
+<p>@Model[1].Content</p>
+<span class="time-right">@Model[1].DateCreated</span>
+</div>
+
+<div class="container darker">
+<img src="/w3images/avatar_g2.jpg" alt="Avatar" class="right">
+<p>@Model[0].Sender</p>
+<p>@Model[0].Content</p>
+<span class="time-left">@Model[0].DateCreated</span>
+</div> *@
+
+
+
