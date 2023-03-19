@@ -177,7 +177,24 @@ li {
     overflow: hidden;
     margin-bottom: 20px;
 }
-
+#myProfileHeader {
+    overflow: hidden;
+    margin-bottom: 20px;
+    text-align: left;
+}
+#myProfilePhoto {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 50%;
+    float: left;
+    margin-left: 20px;
+    margin-bottom: 20px;
+}
+.profileContainer {
+    margin-left: -190px; 
+    margin-top: 50px;
+  }
 .profileNameTitle {
     font-size: x-large;
 }
@@ -187,7 +204,9 @@ li {
     font-weight: bold;
     margin-bottom: 10px;
 }
-
+#links{
+    font-size: larger;
+}
 .aboutMeText {
     font-size: 14px;
     margin-top: 0;
@@ -321,4 +340,7 @@ li {
     max-height: 350px;
     width: 300px;
     overflow-y: auto;
+}
+.edit-form{
+   display: inline-flex;
 }

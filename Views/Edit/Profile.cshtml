@@ -1,0 +1,63 @@
+@model WeConnect.ViewModels.MyViewModel
+@{
+    ViewData["Title"] = "WeConnect - Edit profile";
+}
+
+<div id="mySidenav" class="sidenav">
+    <a href="/Account/Index" id="mypage"><img src="https://i.imgur.com/ZKWyvlp.png" id="icon"><br>My Page</a>
+    <a href="/Account/myfriends" id="myfriends">My Friends</a>
+    <a href="/Chat/Index" id="myconversations">My Conversations</a>
+    <a href="/Account/mymeetings" id="mymeetings">My Meetings</a>
+</div>
+
+<div id="myRightSidenav" class="rightsidenav">
+    <a href="/Account/search" id="search">Search</a>
+    <a href="/Account/signout" id="signout">Sign out</a>
+</div>
+
+
+<form asp-controller="Edit" asp-action="UploadProfilePhoto" method="post" enctype="multipart/form-data">
+    <table>
+        @if (Model.ProfilePhoto == null || Model.ProfilePhoto.ImageUrl == null)
+        {
+            <img src="https://i.imgur.com/ZV3o91c.jpg" id="profilePhoto">
+        }
+        else
+        {
+            <img src="@Html.Raw(Model.ProfilePhoto.ImageUrl)" id="profilePhoto">
+        }
+          <tr>
+            <td>
+                <input type="file" name="file">
+            </td>
+            <td>
+                <button type="submit">Upload</button>
+            </td>
+        </tr>
+    </table>
+</form>
+
+
+<form action="UpdateProfile" method="post">
+    <table>
+        <tr>
+            <td>FirstName: </td>
+            <td><input type="text" name="FirstName" value="@Model.FirstName" /></td>
+        </tr>
+        <tr>
+            <td>LastName: </td>
+            <td><input type="text" name="LastName" value="@Model.LastName" /></td>
+        </tr>
+        <tr>
+            <td>Email: </td>
+            <td><input type="email" name="Email" value="@Model.Email" /></td>
+        </tr>
+        <tr>
+            <td>Password: </td>
+            <td><input type="password" name="Password" value=@Html.PasswordFor(m => m.Password) </td>
+        </tr>
+        <tr>
+            <td colspan="2"><input type="submit" value="Edit" /></td>
+        </tr>
+    </table>
+</form>

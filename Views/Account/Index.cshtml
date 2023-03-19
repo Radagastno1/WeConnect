@@ -50,17 +50,29 @@
   </div>
 </div>
 
-@* <div class="dropdown">
-<a href class="dropbtn">
-<img src="https://i.imgur.com/683w7qg.png" id="icon">
-<br>Friend Requests</a>
-<div class="dropdown-content">
-@* @foreach (var item in @Model.Notifications)
-{
-<a href="#">@item.FromUser @item.Description</a>
-}
+<div class="profileContainer">
+  <div id="myProfileHeader">
+    @if (Model.ProfilePhoto == null || Model.ProfilePhoto.ImageUrl == null)
+    {
+      <img src="https://i.imgur.com/ZV3o91c.jpg" id="profilePhoto">
+    }
+    else
+    {
+      <img src="@Html.Raw(Model.ProfilePhoto.ImageUrl)" id="profilePhoto">
+    }
+    <h2 class="profileNameTitle" <span>
+        @Model.FirstName @Model.LastName
+      </span></h2>
+  </div>
+  <div>
+    <a href="/Edit/Profile" id="links">Edit</a>
+    <div class="aboutMe"></div>
+    <p>Gender: @Model.Gender</p>
+    <p>About me: @Model.AboutMe</p>
+  </div>
+
 </div>
-</div> *@
+
 
 
 <script>

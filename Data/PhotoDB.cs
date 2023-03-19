@@ -6,6 +6,20 @@ namespace WeConnect.Data;
 
 public class PhotoDB
 {
+    public string UpdateProfilePhoto(User user, string image_url)
+    {
+        string query = "add_profile_photo";
+          try
+        {
+            using MySqlConnection con =
+                new($"Server=localhost;Database=facebook_lite;Uid=root;Pwd=;");
+            var imageUrl = con.QuerySingle<string>(query, new { @user_id = user.ID, @image_url = image_url});
+            return imageUrl;
+        }
+        catch { 
+            return null;
+        }
+    }
     public Photo GetProfilePhoto(User user)
     {
         string query =
