@@ -49,12 +49,13 @@ public class ChatController : Controller
         //spara messages till conversations meddelande ??
         try
         {
-            var userId = HttpContext.Session.GetInt32("UserId");
+            int userId = HttpContext.Session.GetInt32("UserId").GetValueOrDefault();
             var user = _userService.GetUserById(userId);
             var messages = _messageService.GetAll(id, user);
             List<MessageViewModel> messagesViewModels = messages
                 .Select(m => MessageToViewModel(m))
                 .ToList();
+            _conversationService.UpdateConversationAsRead(id, userId);
             return View(GenerateMyMessagesViewModel(user, messagesViewModels));
         }
         catch

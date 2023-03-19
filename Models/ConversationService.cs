@@ -182,4 +182,9 @@ public class ConversationService
             return null;
         }
     }
+
+    public void UpdateConversationAsRead(int conversationId, int userId)
+    {
+        _conversationDB.UpdateConversationToRead(conversationId, userId);
+    }
 }

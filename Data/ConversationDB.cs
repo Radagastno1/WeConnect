@@ -120,7 +120,7 @@ public class ConversationDB
             + "WHERE u.is_active = 1 AND uc.is_read = false AND c.id IN ( "
             + "SELECT conversations_id "
             + "FROM users_conversations "
-            + "WHERE users_id = 30 "
+            + "WHERE users_id = @userId "
             + "AND is_read = false) "
             + "GROUP BY c.id; ";
         using MySqlConnection con = new MySqlConnection(
@@ -133,5 +133,15 @@ public class ConversationDB
             return conversations;
         }
         return null;
+    }
+    public void UpdateConversationToRead(int conversationId, int userId)
+    {   
+        string query = "UPDATE users_conversations " + 
+        "SET is_read = true " + 
+        "WHERE users_id = @userId AND conversations_id = @conversationId;";
+         using MySqlConnection con = new MySqlConnection(
+            $"Server=localhost;Database=facebook_lite;Uid=root;Pwd=;"
+        );
+        con.ExecuteScalar(query, new{@userId = userId, @conversationId = conversationId});
     }
 }
