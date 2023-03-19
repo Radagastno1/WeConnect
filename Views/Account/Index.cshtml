@@ -1,53 +1,59 @@
 ﻿@model WeConnect.ViewModels.MyViewModel
 @{
-    ViewData["Title"] = "My Page";
+  ViewData["Title"] = "My Page";
 }
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
 <div id="mySidenav" class="sidenav">
-    <a href="/Account/myfriends" id="myfriends">My Friends</a>
-    <a href="/Chat/Index" id="myconversations">My Conversations</a>
-    <a href="/Account/mymeetings" id="mymeetings">My Meetings</a>
+  <a href="/Account/myfriends" id="myfriends">My Friends</a>
+  <a href="/Chat/Index" id="myconversations">My Conversations</a>
+  <a href="/Account/mymeetings" id="mymeetings">My Meetings</a>
 </div>
 <div id="myRightSidenav" class="rightsidenav">
-    <a href="/Account/search" id="search">Search</a>
-    <a href="/Account/signout" id="signout">Sign out</a>
+  <a href="/Account/search" id="search">Search</a>
+  <a href="/Account/signout" id="signout">Sign out</a>
 </div>
 
 
 <div class="dropdown">
   <a href class="dropbtn">
-     <img src="https://i.imgur.com/FO1DPKO.png" id="icon">
-     <br>Notifications</a>
-  <div class="dropdown-content">
-    @foreach (var item in @Model.Notifications)
+    <img src="https://i.imgur.com/FO1DPKO.png" id="icon">
+    <br>Notifications
+    @if (@Model.Notifications.Count > 0)
     {
-       <a href="#">@item.FromUser @item.Description</a>
+      <span class="badge">@Model.Notifications.Count</span>
     }
-  </div>
+  </a>
+    <div class="dropdown-content">
+      @foreach (var item in @Model.Notifications)
+      {
+        <a href="#">@item.FromUser @item.Description</a>
+      }
+    </div>
 </div>
 
-<div class="dropdown">
-  <a href class="dropbtn">
-     <img src="https://i.imgur.com/683w7qg.png" id="icon">
-     <br>Friend Requests</a>
-  <div class="dropdown-content">
-    @* @foreach (var item in @Model.Notifications)
-    {
-       <a href="#">@item.FromUser @item.Description</a>
-    } *@
-  </div>
+
+@* <div class="dropdown">
+<a href class="dropbtn">
+<img src="https://i.imgur.com/683w7qg.png" id="icon">
+<br>Friend Requests</a>
+<div class="dropdown-content">
+@* @foreach (var item in @Model.Notifications)
+{
+<a href="#">@item.FromUser @item.Description</a>
+}
 </div>
+</div> *@
 
 
 <script>
-  $(document).ready(function() {
-    $(".dropbtn").click(function(e) {
+  $(document).ready(function () {
+    $(".dropbtn").click(function (e) {
       e.preventDefault();
-      
+
       // Skicka POST-förfrågan och avsluta direkt
-      $.post("/Account/MarkNotificationsAsRead", function() {
+      $.post("/Account/MarkNotificationsAsRead", function () {
         // Denna funktion körs när servern har behandlat POST-förfrågan
         // Gör ingenting här
       });

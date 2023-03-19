@@ -71,8 +71,6 @@ public class ChatController : Controller
             var userId = HttpContext.Session.GetInt32("UserId");
             var user = _userService.GetUserById(userId);
 
-            //MÅSTE KOMMA IN ETT CONVERSATIONID!
-
             _messageService.Create(content, senderId: user.ID, conversationId);
             var messages = _messageService.GetAll(conversationId, user);
             var messagesViewModels = messages.Select(m => MessageToViewModel(m));
