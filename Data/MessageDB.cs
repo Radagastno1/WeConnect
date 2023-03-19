@@ -46,5 +46,5 @@ public class MessagesDB
         using MySqlConnection con = new MySqlConnection($"Server=localhost;Database=facebook_lite;Uid=root;Pwd=;");
         messages = con.Query<Message>(query, new { @conversationId = conversationId }).ToList();
         return messages;
-    }
+    } 
 }

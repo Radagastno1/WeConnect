@@ -16,4 +16,5 @@ public class MyViewModel
     public string AboutMe { get; set; }
     public List<FriendViewModel> MyFriends { get; set; } = new();
     public List<NotificationViewModel> Notifications{get;set;} = new();
+    public List<ConversationViewModel> Conversations{get;set;} = new();
 }

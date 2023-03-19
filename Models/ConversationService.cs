@@ -1,46 +1,61 @@
 using WeConnect.Data;
+
 namespace WeConnect.Models;
 
 public class ConversationService
 {
     ConversationDB _conversationDB;
-     CrudDB<Conversation> _crudDB;
+    CrudDB<Conversation> _crudDB;
+
     public ConversationService(ConversationDB conversationDB, CrudDB<Conversation> crudDB)
     {
         _conversationDB = conversationDB;
         _crudDB = crudDB;
     }
+
     public int? Create(Conversation conversation)
     {
-        int? conversationId = _crudDB.Create(conversation, QueryGenerator<Conversation>.InsertQuery(conversation));
+        int? conversationId = _crudDB.Create(
+            conversation,
+            QueryGenerator<Conversation>.InsertQuery(conversation)
+        );
         if (conversationId != null)
-        {         
+        {
             conversation.ID = conversationId.GetValueOrDefault();
         }
         return conversationId;
     }
+
     public int? Update(Conversation conversation)
     {
-        int? usersConversationId = _crudDB.Update(conversation, QueryGenerator<Conversation>.UpdateQuery(conversation));
+        int? usersConversationId = _crudDB.Update(
+            conversation,
+            QueryGenerator<Conversation>.UpdateQuery(conversation)
+        );
         return usersConversationId;
     }
+
     public List<Conversation> GetAll(int data, User user)
     {
         List<Conversation> conversations = _conversationDB.GetById(data, user);
         return conversations;
     }
+
     public List<Conversation> GetBySearch(string name, User user)
     {
-        throw new NotImplementedException();//ska kunna söka efter konversationer via namn i sin chatt
+        throw new NotImplementedException(); //ska kunna söka efter konversationer via namn i sin chatt
     }
+
     public Conversation GetOne(int data, User user)
     {
         return new Conversation();
     }
+
     public int? Remove(Conversation obj)
     {
-        throw new NotImplementedException();//man ska kunna lämna en konversation
+        throw new NotImplementedException(); //man ska kunna lämna en konversation
     }
+
     public ConversationResult GetIds(List<int> participantIds)
     {
         ConversationResult result = new();
@@ -58,7 +73,10 @@ public class ConversationService
                 sql += $"{id}";
             }
         }
-        conversationHolder = _conversationDB.GetConversationsOfSpecificParticipants(amountOfParticipants, sql);
+        conversationHolder = _conversationDB.GetConversationsOfSpecificParticipants(
+            amountOfParticipants,
+            sql
+        );
         if (conversationHolder.Count > 0)
         {
             result.Conversations = conversationHolder;
@@ -70,13 +88,18 @@ public class ConversationService
         }
         return result;
     }
+
     public List<int> GetAllMyConversationsIds(User user)
     {
-        List<Conversation> conversations = _crudDB.GetAll(user, QueryGenerator<Conversation>.SelectQuery(new Conversation(), user));
+        List<Conversation> conversations = _crudDB.GetAll(
+            user,
+            QueryGenerator<Conversation>.SelectQuery(new Conversation(), user)
+        );
         List<int> conversationIds = new();
         conversations.ForEach(c => conversationIds.Add(c.ID));
         return conversationIds;
-    }       
+    }
+
     public int MakeNew(List<User> participants, User user)
     {
         Conversation conversation = new();
@@ -90,6 +113,7 @@ public class ConversationService
         }
         return conversationId;
     }
+
     public List<Conversation> GetParticipantsPerConversation(List<int> ids)
     {
         //användares id ska komma in och det ska kollas mot db om det finns en konv mellan dessa
@@ -99,7 +123,7 @@ public class ConversationService
         //     List<int> conversationsIds = new();
         //     //konversations id läggs i en lista
         //     conversations.ForEach(c => conversationsIds.Add(c.ID));
-        //     //konversationerna som fanns med alla deltarares namn hämtas 
+        //     //konversationerna som fanns med alla deltarares namn hämtas
         //     List<Conversation> foundConversations = GetById(conversationsIds);
         //     return foundConversations;
         // }
@@ -113,6 +137,7 @@ public class ConversationService
         // }
         throw new NotImplementedException();
     }
+
     public List<Conversation> GetById(List<int> ids)
     {
         ConversationResult result = new();
@@ -120,7 +145,9 @@ public class ConversationService
         bool success;
         foreach (int id in ids)
         {
-            result.Conversation = _conversationDB.GetConversationIdAndParticipantNames(id).Conversation;
+            result.Conversation = _conversationDB
+                .GetConversationIdAndParticipantNames(id)
+                .Conversation;
             success = _conversationDB.GetConversationIdAndParticipantNames(id).ConversationExists;
             if (success == true)
             {
@@ -129,12 +156,26 @@ public class ConversationService
         }
         return conversations;
     }
+
     public Conversation GetDialogueId(int userId, int id)
     {
         try
         {
             Conversation dialogue = _conversationDB.GetDialogueId(userId, id);
             return dialogue;
+        }
+        catch (InvalidOperationException)
+        {
+            return null;
+        }
+    }
+
+    public List<Conversation> GetUnreadConversations(User user)
+    {
+        try
+        {
+            var unreadConversations = _conversationDB.GetUnreadConversations(user);
+            return unreadConversations;
         }
         catch (InvalidOperationException)
         {

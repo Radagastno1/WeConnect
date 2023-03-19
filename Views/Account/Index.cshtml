@@ -15,24 +15,40 @@
   <a href="/Account/signout" id="signout">Sign out</a>
 </div>
 
-
 <div class="dropdown">
-  <a href class="dropbtn">
-    <img src="https://i.imgur.com/FO1DPKO.png" id="icon">
-    <br>Notifications
+  <a href class="dropbtn-hoots">
+    <img src="https://i.imgur.com/uOiQs93.png" id="icon">
+    <br>Hoots
     @if (@Model.Notifications.Count > 0)
     {
       <span class="badge">@Model.Notifications.Count</span>
     }
   </a>
-    <div class="dropdown-content">
-      @foreach (var item in @Model.Notifications)
-      {
-        <a href="#">@item.FromUser @item.Description</a>
-      }
-    </div>
+
+  <div class="dropdown-content">
+    @foreach (var item in @Model.Notifications)
+    {
+      <a href="#">@item.FromUser @item.Description</a>
+    }
+  </div>
 </div>
 
+<div class="dropdown">
+  <a href class="dropbtn-messages">
+    <img src="https://i.imgur.com/owyd8BQ.png" id="icon">
+    <br>Messages
+    @if (@Model.Conversations.Count > 0)
+    {
+      <span class="badge">@Model.Conversations.Count</span>
+    }
+  </a>
+  <div class="dropdown-content">
+    @foreach (var item in @Model.Conversations)
+    {
+      <a asp-controller="Chat" asp-action="ViewConversation" asp-route-id="@item.ID"> @item.ParticipantsNames</a>
+    }
+  </div>
+</div>
 
 @* <div class="dropdown">
 <a href class="dropbtn">
@@ -49,7 +65,7 @@
 
 <script>
   $(document).ready(function () {
-    $(".dropbtn").click(function (e) {
+    $(".dropbtn-hoots").click(function (e) {
       e.preventDefault();
 
       // Skicka POST-förfrågan och avsluta direkt

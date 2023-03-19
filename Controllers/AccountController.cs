@@ -24,6 +24,7 @@ public class AccountController : Controller
         _userService = userService;
         _conversationService = conversationService;
         _notificationService = notificationService;
+
     }
 
     public IActionResult Index()
@@ -36,7 +37,10 @@ public class AccountController : Controller
             var notifications =
                 _notificationService.GetUnreadNotifications(user) ?? new List<Notification>();
 
-            var myViewModel = UserToMyViewModel(user, notifications);
+            //HÄMTA ALLA UNREAD OF MY MESSAGES!!!!
+            var conversations = _conversationService.GetUnreadConversations(user);
+
+            var myViewModel = UserToMyViewModel(user, notifications, conversations);
             if (user == null)
             {
                 return RedirectToAction("Index", "Home");
@@ -125,7 +129,7 @@ public class AccountController : Controller
         };
     }
 
-    private MyViewModel UserToMyViewModel(User user, List<Notification> notifications)
+    private MyViewModel UserToMyViewModel(User user, List<Notification> notifications, List<Conversation> conversations)
     {
         return new MyViewModel
         {
@@ -137,10 +141,18 @@ public class AccountController : Controller
             BirthDate = user.BirthDate,
             Gender = user.Gender,
             AboutMe = user.AboutMe,
-            Notifications = NotificationsToViewModels(notifications, user) ?? new List<NotificationViewModel>()
+            Notifications = NotificationsToViewModels(notifications, user) ?? new List<NotificationViewModel>(),
+            Conversations = ConversationsToViewModels(conversations) ?? new List<ConversationViewModel>()
         };
     }
-
+    private List<ConversationViewModel> ConversationsToViewModels(List<Conversation> conversations)
+    {
+        List<ConversationViewModel> conversationViewModels =  conversations.Select(c => new ConversationViewModel{
+            ID = c.ID,
+            ParticipantsNames = c.ParticipantsNames
+        }).ToList();
+        return conversationViewModels;
+    }
     private List<NotificationViewModel> NotificationsToViewModels(
         List<Notification> notifications,
         User user
