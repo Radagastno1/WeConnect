@@ -4,6 +4,13 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddSession();
 
+
+//ATT GÖRA!
+//1. async i querygenerator
+//2. starta en chatt
+//3. komma till dialog om inne på väns sida, som i facebook_lite
+//4. ladda upp profilbild
+
 builder.Services.AddScoped<WeConnect.Data.BlockingsDB>();
 builder.Services.AddScoped<WeConnect.Data.CommentsDB>();
 builder.Services.AddScoped<WeConnect.Data.ConversationDB>();
