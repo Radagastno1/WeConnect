@@ -277,8 +277,10 @@ li {
 }
 
 .profiles {
-    display: block;
-    margin-bottom: 10px;
+    display: grid;
+}
+#myfriends-list{
+    margin-top: 10px;
 }
 
 /* Chat containers */

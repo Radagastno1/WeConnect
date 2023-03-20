@@ -46,21 +46,22 @@ public class EditController : Controller
                 request.AddFile("image", fileBytes, file.FileName);
 
                 var response = await client.ExecuteAsync(request);
-                var content = JsonConvert.DeserializeObject<ImgurNet.Models.Image>(
-                    response.Content
-                );
+                var image = JsonConvert.DeserializeObject<ImgurResponse>(response.Content);
 
                 if (response.IsSuccessful)
                 {
-                    var imageUrl = content.Link;
+                    var imageUrl = image.Data.Link;
 
                     // Save the image URL to the database
                     // ...
-                    var userId = HttpContext.Session.GetInt32("UserId");
-                    var user = await _userService.GetUserById(userId);
-                    await _photoService.UpdateProfilePhoto(user, imageUrl);
+                    if (imageUrl != null)
+                    {
+                        var userId = HttpContext.Session.GetInt32("UserId");
+                        var user = await _userService.GetUserById(userId);
+                        await _photoService.UpdateProfilePhoto(user, imageUrl);
 
-                    return RedirectToAction("Profile", "Edit");
+                        return RedirectToAction("Profile", "Edit");
+                    }
                 }
                 else
                 {

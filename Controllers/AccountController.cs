@@ -142,7 +142,8 @@ public class AccountController : Controller
             Gender = user.Gender,
             AboutMe = user.AboutMe,
             Notifications = NotificationsToViewModels(notifications, user) ?? new List<NotificationViewModel>(),
-            Conversations = ConversationsToViewModels(conversations) ?? new List<ConversationViewModel>()
+            Conversations = ConversationsToViewModels(conversations) ?? new List<ConversationViewModel>(),
+            ProfilePhoto = user.ProfilePhoto ?? new Photo()
         };
     }
     private List<ConversationViewModel> ConversationsToViewModels(List<Conversation> conversations)

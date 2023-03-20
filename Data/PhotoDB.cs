@@ -8,7 +8,7 @@ public class PhotoDB
 {
     public string UpdateProfilePhoto(User user, string image_url)
     {
-        string query = "add_profile_photo";
+        string query = "CALL add_profile_photo(@image_url, @user_id);";
           try
         {
             using MySqlConnection con =
