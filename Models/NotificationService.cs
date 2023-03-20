@@ -8,7 +8,7 @@ public class NotificationService
     {
         _notificationsDB = notificationsDB;
     }
-    public List<Notification> GetUnreadNotifications(User user)
+    public async Task<List<Notification>> GetUnreadNotifications(User user)
     {
         try
         {
@@ -27,7 +27,7 @@ public class NotificationService
             return null;
         }
     }
-    public void UpdateToRead(User user)
+    public async Task UpdateToRead(User user)
     {
         _notificationsDB.UpdateToRead(user);
     }

@@ -16,7 +16,7 @@ public class FriendRequestController : Controller
         _userService = userService;
     }
 
-    public IActionResult Index()
+    public async Task<IActionResult> Index()
     {
         try
         {
@@ -42,7 +42,7 @@ public class FriendRequestController : Controller
         }
     }
     [HttpPost]
-    public ActionResult AddFriend(int id)
+    public async Task<IActionResult> AddFriend(int id)
     {
         try
         {

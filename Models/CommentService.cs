@@ -9,11 +9,11 @@ public class CommentsManager
         _commentsDB = commentsDB;
         _crudDB = crudDB;
     }
-    public int? Create(Comment obj)
+    public async Task<int?> Create(Comment obj)
     {
         return _crudDB.Create(obj, QueryGenerator<Comment>.InsertQuery(obj));
     }
-    public List<Comment> GetAll(int postId, User user)
+    public async Task<List<Comment>> GetAll(int postId, User user)
     {
         try
         {
@@ -25,19 +25,19 @@ public class CommentsManager
             return null;
         }
     }
-    public List<Comment> GetBySearch(string name, User user)
+    public async Task<List<Comment>> GetBySearch(string name, User user)
     {
         throw new NotImplementedException();  //sök efter kommentarer i en post via namn?
     }
-    public Comment GetOne(int data, User user)
+    public async Task<Comment> GetOne(int data, User user)
     {
         throw new NotImplementedException();  //hämta specifik kommentar
     }
-    public int? Remove(Comment obj)
+    public async Task<int?> Remove(Comment obj)
     {
         throw new NotImplementedException();  //måste kunna radera sin egen kommentar ELLER om den är på sitt inlägg
     }
-    public int? Update(Comment comment)
+    public async Task<int?> Update(Comment comment)
     {
         throw new NotImplementedException();  //redigera sin egna kommentar
     }

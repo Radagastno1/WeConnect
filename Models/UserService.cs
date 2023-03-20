@@ -16,7 +16,7 @@ public class UserService
         _photoDB = photoDB;
     }
 
-    public User GetUserById(int? id)
+    public async Task<User> GetUserById(int? id)
     {
         if (id == null)
         {
@@ -35,12 +35,12 @@ public class UserService
         }
     }
 
-    public int? Create(User user)
+    public async Task<int?> Create(User user)
     {
         return _crudDB.Create(user, QueryGenerator<User>.InsertQuery(user));
     }
 
-    public List<User> GetBySearch(string name, User user)
+    public async Task<List<User>> GetBySearch(string name, User user)
     {
         List<User> foundUsers = _usersDB.GetSearches(name);
         List<User> usersAvailable = new();
@@ -55,7 +55,7 @@ public class UserService
         return usersAvailable;
     }
 
-    public User GetOne(int id, User user)
+    public async Task<User> GetOne(int id, User user)
     {
         // List<User> allUsers = _userData.GetAll();
         // User user = new();
@@ -77,23 +77,23 @@ public class UserService
         }
     }
 
-    public List<User> GetUsersById(List<int> ids, User user)
+    public async Task<List<User>> GetUsersById(List<int> ids, User user)
     {
         List<User> participants = new();
         foreach (int id in ids)
         {
-            User participant = GetOne(id, user);
+            User participant = await GetOne(id, user);
             participants.Add(participant);
         }
         return participants;
     }
 
-    public int? Remove(User user)
+    public async Task<int?> Remove(User user)
     {
         return _crudDB.Delete(user, QueryGenerator<User>.DeleteQuery(user));
     }
 
-    public int? Update(User user)
+    public async Task<int?> Update(User user)
     {
         int? rows = _crudDB.Update(user, QueryGenerator<User>.UpdateQuery(user));
         if (rows > 0)
@@ -106,12 +106,12 @@ public class UserService
         }
     }
 
-    public List<User> GetAll(int data, User user)
+    public async Task<List<User>> GetAll(int data, User user)
     {
         throw new NotImplementedException();
     }
 
-    public int? SetAsDeleted()
+    public async Task<int?> SetAsDeleted()
     {
         List<User> usersToDelete = _usersDB.GetInactive();
         int usersToDeletedTable = 0;

@@ -27,7 +27,7 @@ public class AccountController : Controller
 
     }
 
-    public IActionResult Index()
+    public async Task<IActionResult> Index()
     {
         try
         {
@@ -54,7 +54,7 @@ public class AccountController : Controller
         }
     }
 
-    public ActionResult<FriendViewModel> MyFriends()
+    public async Task<ActionResult<FriendViewModel>> MyFriends()
     {
         try
         {
@@ -70,19 +70,19 @@ public class AccountController : Controller
         }
     }
 
-    public ActionResult SignOut()
+    public async Task<ActionResult> SignOut()
     {
         HttpContext.Session.Clear();
         return RedirectToAction("Index", "Home");
     }
 
-    public ActionResult Search()
+    public async Task<ActionResult> Search()
     {
         return View();
     }
 
     [HttpPost]
-    public ActionResult<FriendViewModel> Search(string search)
+    public async Task<ActionResult<FriendViewModel>> Search(string search)
     {
         var userId = HttpContext.Session.GetInt32("UserId");
         var user = _userService.GetUserById(userId);
@@ -103,7 +103,7 @@ public class AccountController : Controller
     // }
 
     [HttpPost]
-    public ActionResult MarkNotificationsAsRead()
+    public async Task<ActionResult> MarkNotificationsAsRead()
     {
         var userId = HttpContext.Session.GetInt32("UserId");
         var user = _userService.GetUserById(userId);

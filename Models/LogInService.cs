@@ -9,7 +9,7 @@ public class LogInService
     {
         _logInDB = logInDB;
     }
-    public User LogIn(string email, string passWord)  
+    public async Task<User> LogIn(string email, string passWord)  
     {
         try
         {

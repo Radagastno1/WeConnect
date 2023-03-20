@@ -13,33 +13,18 @@ public class EditController : Controller
 {
     UserService _userService;
     PhotoService _photoService;
+
     public EditController(UserService userService, PhotoService photoService)
     {
         _userService = userService;
         _photoService = photoService;
     }
 
-    public IActionResult Profile()
+    public async Task<IActionResult> Profile()
     {
         var userId = HttpContext.Session.GetInt32("UserId");
         var user = _userService.GetUserById(userId);
         return View(UserToMyViewModel(user));
-    }
-
-    private MyViewModel UserToMyViewModel(User user)
-    {
-        return new MyViewModel
-        {
-            Id = user.ID,
-            FirstName = user.FirstName,
-            LastName = user.LastName,
-            Email = user.Email,
-            Password = user.PassWord,
-            BirthDate = user.BirthDate,
-            Gender = user.Gender,
-            AboutMe = user.AboutMe,
-            ProfilePhoto = user.ProfilePhoto ?? new Photo()
-        };
     }
 
     [HttpPost]
@@ -61,8 +46,9 @@ public class EditController : Controller
                 request.AddFile("image", fileBytes, file.FileName);
 
                 var response = await client.ExecuteAsync(request);
-                var content = JsonConvert.DeserializeObject<ImgurNet.Models.Image>(response.Content);
-
+                var content = JsonConvert.DeserializeObject<ImgurNet.Models.Image>(
+                    response.Content
+                );
 
                 if (response.IsSuccessful)
                 {
@@ -89,5 +75,21 @@ public class EditController : Controller
             }
         }
         return RedirectToAction("Profile", "Edit");
+    }
+
+    private MyViewModel UserToMyViewModel(User user)
+    {
+        return new MyViewModel
+        {
+            Id = user.ID,
+            FirstName = user.FirstName,
+            LastName = user.LastName,
+            Email = user.Email,
+            Password = user.PassWord,
+            BirthDate = user.BirthDate,
+            Gender = user.Gender,
+            AboutMe = user.AboutMe,
+            ProfilePhoto = user.ProfilePhoto ?? new Photo()
+        };
     }
 }

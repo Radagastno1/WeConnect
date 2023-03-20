@@ -15,18 +15,18 @@ public class HomeController : Controller
         _userService = userService;
     }
 
-    public IActionResult Index()
+    public async Task<IActionResult> Index()
     {
         return View();
     }
 
-    public IActionResult SignIn()
+    public async Task<IActionResult> SignIn()
     {
         return View();
     }
 
     [HttpPost]
-    public IActionResult SignIn(string email, string password)
+    public async Task<IActionResult> SignIn(string email, string password)
     {
         try
         {
@@ -41,7 +41,7 @@ public class HomeController : Controller
         }
     }
 
-    public IActionResult SignUp()
+    public async Task<IActionResult> SignUp()
     {
         return View();
     }
@@ -52,7 +52,7 @@ public class HomeController : Controller
     //     return 
     // }
 
-    public IActionResult Contact()
+    public async Task<IActionResult> Contact()
     {
         return View();
     }

@@ -9,7 +9,7 @@ public class PhotoService
     {
         _photoDB = photoDB;
     }
-    public string UpdateProfilePhoto(User user, string imageUrl)
+    public async Task<string> UpdateProfilePhoto(User user, string imageUrl)
     {
         return _photoDB.UpdateProfilePhoto(user, imageUrl);
     }

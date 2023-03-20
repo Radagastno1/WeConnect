@@ -13,7 +13,7 @@ public class ConversationService
         _crudDB = crudDB;
     }
 
-    public int? Create(Conversation conversation)
+    public async Task<int?> Create(Conversation conversation)
     {
         int? conversationId = _crudDB.Create(
             conversation,
@@ -26,7 +26,7 @@ public class ConversationService
         return conversationId;
     }
 
-    public int? Update(Conversation conversation)
+    public async Task<int?> Update(Conversation conversation)
     {
         int? usersConversationId = _crudDB.Update(
             conversation,
@@ -35,28 +35,28 @@ public class ConversationService
         return usersConversationId;
     }
 
-    public List<Conversation> GetAll(int data, User user)
+    public async Task<List<Conversation>> GetAll(int data, User user)
     {
         List<Conversation> conversations = _conversationDB.GetById(data, user);
         return conversations;
     }
 
-    public List<Conversation> GetBySearch(string name, User user)
+    public async Task<List<Conversation>> GetBySearch(string name, User user)
     {
         throw new NotImplementedException(); //ska kunna söka efter konversationer via namn i sin chatt
     }
 
-    public Conversation GetOne(int data, User user)
+    public async Task<Conversation> GetOne(int data, User user)
     {
         return new Conversation();
     }
 
-    public int? Remove(Conversation obj)
+    public async Task<int?> Remove(Conversation obj)
     {
         throw new NotImplementedException(); //man ska kunna lämna en konversation
     }
 
-    public ConversationResult GetIds(List<int> participantIds)
+    public async Task<ConversationResult> GetIds(List<int> participantIds)
     {
         ConversationResult result = new();
         List<Conversation> conversationHolder = new();
@@ -89,7 +89,7 @@ public class ConversationService
         return result;
     }
 
-    public List<int> GetAllMyConversationsIds(User user)
+    public async Task<List<int>> GetAllMyConversationsIds(User user)
     {
         List<Conversation> conversations = _crudDB.GetAll(
             user,
@@ -100,11 +100,11 @@ public class ConversationService
         return conversationIds;
     }
 
-    public int MakeNew(List<User> participants, User user)
+    public async Task<int> MakeNew(List<User> participants, User user)
     {
         Conversation conversation = new();
         conversation.CreatorId = user.ID;
-        int conversationId = Create(conversation).GetValueOrDefault();
+        int conversationId = Create(conversation).GetHashCode(); //KOLLA UPP?? innan var det getdefault..
         participants.Add(user);
         foreach (User item in participants)
         {
@@ -114,7 +114,7 @@ public class ConversationService
         return conversationId;
     }
 
-    public List<Conversation> GetParticipantsPerConversation(List<int> ids)
+    public async Task<List<Conversation>> GetParticipantsPerConversation(List<int> ids)
     {
         //användares id ska komma in och det ska kollas mot db om det finns en konv mellan dessa
         // try
@@ -138,7 +138,7 @@ public class ConversationService
         throw new NotImplementedException();
     }
 
-    public List<Conversation> GetById(List<int> ids)
+    public async Task<List<Conversation>> GetById(List<int> ids)
     {
         ConversationResult result = new();
         List<Conversation> conversations = new();
@@ -157,7 +157,7 @@ public class ConversationService
         return conversations;
     }
 
-    public Conversation GetDialogueId(int userId, int id)
+    public async Task<Conversation> GetDialogueId(int userId, int id)
     {
         try
         {
@@ -170,7 +170,7 @@ public class ConversationService
         }
     }
 
-    public List<Conversation> GetUnreadConversations(User user)
+    public async Task<List<Conversation>> GetUnreadConversations(User user)
     {
         try
         {
@@ -183,7 +183,7 @@ public class ConversationService
         }
     }
 
-    public void UpdateConversationAsRead(int conversationId, int userId)
+    public async Task UpdateConversationAsRead(int conversationId, int userId)
     {
         _conversationDB.UpdateConversationToRead(conversationId, userId);
     }

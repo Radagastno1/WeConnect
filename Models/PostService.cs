@@ -9,11 +9,11 @@ public class PostService
         _postsDB = postsDB;
         _crudDB = crudDB;
     }
-    public int? Create(Post post)
+    public async Task<int?> Create(Post post)
     {
         return _crudDB.Create(post, QueryGenerator<Post>.InsertQuery(post));
     }
-    public List<Post> GetBySearch(string search, User user)
+    public async Task<List<Post>> GetBySearch(string search, User user)
     {
         List<Post> searchedPosts = new();
         try
@@ -27,20 +27,20 @@ public class PostService
         }
         return searchedPosts;
     }
-    public Post GetOne(int postId, User user)  //ska lösas via sql
+    public async Task<Post> GetOne(int postId, User user)  //ska lösas via sql
     {
          Post post = _postsDB.GetOne(postId, user);
         return post;
     }
-    public int? Remove(Post post)   //man ska kunna radera sin post, alltså sätta till ej synlig
+    public async Task<int?> Remove(Post post)   //man ska kunna radera sin post, alltså sätta till ej synlig
     {
         return _crudDB.Delete(post, QueryGenerator<Post>.DeleteQuery(post));
     }
-    public int? Update(Post post)   //redigera sin post och lägg till is_edited i table
+    public async Task<int?> Update(Post post)   //redigera sin post och lägg till is_edited i table
     {
         return _crudDB.Update(post, QueryGenerator<Post>.UpdateQuery(post));
     }
-    public List<Post> GetAll(int userId, User user)
+    public async Task<List<Post>> GetAll(int userId, User user)
     {
         try
         {

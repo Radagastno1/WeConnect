@@ -11,7 +11,7 @@ public class BlockingService
         _blockingsDB = blockingsDB;
     }
 
-    public int Create(User user, int id)
+    public async Task<int> Create(User user, int id)
     {
         int blockedId = 0;
         if (user.ID != id)
@@ -29,7 +29,7 @@ public class BlockingService
         return blockedId;
     }
 
-    public List<User> GetMine(User user)
+    public async Task<List<User>> GetMine(User user)
     {
         try
         {
@@ -41,12 +41,12 @@ public class BlockingService
         }
     }
 
-    public int Delete(User obj, int id) //unblock user
+    public async Task<int> Delete(User obj, int id) //unblock user
     {
         throw new NotImplementedException();
     }
 
-    public void Update(User obj)
+    public async Task Update(User obj)
     {
         throw new NotImplementedException();
     }

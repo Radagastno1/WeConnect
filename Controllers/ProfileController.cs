@@ -22,32 +22,7 @@ public class ProfileController : Controller
         _conversationService = conversationService;
     }
 
-    // public IActionResult Index()
-    // {
-    //     try
-    //     {
-    //         var userId = HttpContext.Session.GetInt32("UserId");
-    //         var user = _userService.GetUserById(userId);
-    //         if (user == null)
-    //         {
-    //             return RedirectToAction("Index", "Account");
-    //         }
-    //         var homePageViewModel = new HomePageViewModel
-    //         {
-    //             Id = user.ID,
-    //             FirstName = user.FirstName,
-    //             LastName = user.LastName,
-    //             Email = user.Email
-    //         };
-    //         return View(homePageViewModel);
-    //     }
-    //     catch (Exception e)
-    //     {
-    //         Debug.WriteLine("ERROR:" + e.Message);
-    //         return RedirectToAction("Index", "Home");
-    //     }
-    // }
-    public ActionResult ShowProfile(int id)
+    public async Task<IActionResult> ShowProfile(int id)
     {
         try
         {
@@ -72,7 +47,7 @@ public class ProfileController : Controller
         }
     }
 
-    public ActionResult<FriendViewModel> Friend(FriendViewModel friend)
+    public async Task<ActionResult<FriendViewModel>> Friend(FriendViewModel friend)
     {
         try
         {
@@ -84,7 +59,7 @@ public class ProfileController : Controller
         }
     }
 
-    public ActionResult<FriendViewModel> NonFriend(FriendViewModel userToVisit)
+    public async Task<ActionResult<FriendViewModel>> NonFriend(FriendViewModel userToVisit)
     {
         try
         {
@@ -97,7 +72,7 @@ public class ProfileController : Controller
         }
     }
 
-    public ActionResult Error()
+    public async Task<IActionResult> Error()
     {
         return View();
     }

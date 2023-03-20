@@ -25,7 +25,7 @@ public class ChatController : Controller
         _messageService = messgageService;
     }
 
-    public ActionResult Index()
+    public async Task<IActionResult> Index()
     {
         try
         {
@@ -44,7 +44,7 @@ public class ChatController : Controller
         }
     }
 
-    public ActionResult ViewConversation(int id)
+    public async Task<IActionResult> ViewConversation(int id)
     {
         //spara messages till conversations meddelande ??
         try
@@ -65,7 +65,7 @@ public class ChatController : Controller
     }
 
     [HttpPost]
-    public ActionResult SendMessage(string content, int conversationId)
+    public async Task<IActionResult> SendMessage(string content, int conversationId)
     {
         try
         {
