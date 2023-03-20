@@ -21,7 +21,7 @@ public class FriendRequestController : Controller
         try
         {
             var userId = HttpContext.Session.GetInt32("UserId");
-            var user = _userService.GetUserById(userId);
+            var user = await _userService.GetUserById(userId);
             if (user == null)
             {
                 return RedirectToAction("Index", "Home");
@@ -47,7 +47,7 @@ public class FriendRequestController : Controller
         try
         {
             var userId = HttpContext.Session.GetInt32("UserId");
-            var user = _userService.GetUserById(userId);
+            var user = await _userService.GetUserById(userId);
             _friendService.Create(user, id);
 
             // HttpContext.Session.SetInt32("FriendId", id);

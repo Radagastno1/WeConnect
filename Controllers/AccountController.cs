@@ -32,13 +32,13 @@ public class AccountController : Controller
         try
         {
             var userId = HttpContext.Session.GetInt32("UserId");
-            var user = _userService.GetUserById(userId);
+            var user = await _userService.GetUserById(userId);
 
             var notifications =
-                _notificationService.GetUnreadNotifications(user) ?? new List<Notification>();
+                await _notificationService.GetUnreadNotifications(user) ?? new List<Notification>();
 
             //HÄMTA ALLA UNREAD OF MY MESSAGES!!!!
-            var conversations = _conversationService.GetUnreadConversations(user);
+            var conversations = await _conversationService.GetUnreadConversations(user);
 
             var myViewModel = UserToMyViewModel(user, notifications, conversations);
             if (user == null)
@@ -59,7 +59,7 @@ public class AccountController : Controller
         try
         {
             var userId = HttpContext.Session.GetInt32("UserId");
-            var user = _userService.GetUserById(userId);
+            var user = await _userService.GetUserById(userId);
             var friendsAsUsers = _friendService.GetMine(user);
             var friendsAsViewModels = FriendsToViewModel(friendsAsUsers);
             return View(friendsAsViewModels);
@@ -85,8 +85,8 @@ public class AccountController : Controller
     public async Task<ActionResult<FriendViewModel>> Search(string search)
     {
         var userId = HttpContext.Session.GetInt32("UserId");
-        var user = _userService.GetUserById(userId);
-        var foundUsers = _userService.GetBySearch(search, user);
+        var user = await _userService.GetUserById(userId);
+        var foundUsers = await _userService.GetBySearch(search, user);
         var usersAsFriendViewModels = foundUsers.Select(u => UserToFriendViewModel(u)).ToList();
         return View(usersAsFriendViewModels);
     }
@@ -106,9 +106,9 @@ public class AccountController : Controller
     public async Task<ActionResult> MarkNotificationsAsRead()
     {
         var userId = HttpContext.Session.GetInt32("UserId");
-        var user = _userService.GetUserById(userId);
+        var user = _userService.GetUserById(userId).Result;
 
-        _notificationService.UpdateToRead(user);
+        await _notificationService.UpdateToRead(user);
         return RedirectToAction("Index", "Account");
     }
 
@@ -161,7 +161,7 @@ public class AccountController : Controller
         return notifications
             .Select(
                 n =>
-                    new NotificationViewModel(_notificationService.UpdateToRead)
+                    new NotificationViewModel()
                     {
                         Id = n.Id,
                         NotificationType = n.NotificationType,

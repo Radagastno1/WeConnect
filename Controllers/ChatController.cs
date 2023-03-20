@@ -30,9 +30,9 @@ public class ChatController : Controller
         try
         {
             var userId = HttpContext.Session.GetInt32("UserId");
-            var user = _userService.GetUserById(userId);
-            List<int> conversationIds = _conversationService.GetAllMyConversationsIds(user);
-            List<Conversation> myConversations = _conversationService.GetById(conversationIds);
+            var user = await _userService.GetUserById(userId);
+            List<int> conversationIds = await _conversationService.GetAllMyConversationsIds(user);
+            List<Conversation> myConversations = await _conversationService.GetById(conversationIds);
             IEnumerable<ConversationViewModel> conversationsViewModels = myConversations.Select(
                 c => ConversationToViewModel(c)
             );
@@ -50,8 +50,8 @@ public class ChatController : Controller
         try
         {
             int userId = HttpContext.Session.GetInt32("UserId").GetValueOrDefault();
-            var user = _userService.GetUserById(userId);
-            var messages = _messageService.GetAll(id, user);
+            var user = await _userService.GetUserById(userId);
+            var messages = await _messageService.GetAll(id, user);
             List<MessageViewModel> messagesViewModels = messages
                 .Select(m => MessageToViewModel(m))
                 .ToList();
@@ -70,10 +70,10 @@ public class ChatController : Controller
         try
         {
             var userId = HttpContext.Session.GetInt32("UserId");
-            var user = _userService.GetUserById(userId);
+            var user = await _userService.GetUserById(userId);
 
-            _messageService.Create(content, senderId: user.ID, conversationId);
-            var messages = _messageService.GetAll(conversationId, user);
+            await _messageService.Create(content, senderId: user.ID, conversationId);
+            var messages = await _messageService.GetAll(conversationId, user);
             var messagesViewModels = messages.Select(m => MessageToViewModel(m));
             return RedirectToAction("ViewConversation", "Chat", new{id = conversationId});
         }

@@ -23,7 +23,7 @@ public class EditController : Controller
     public async Task<IActionResult> Profile()
     {
         var userId = HttpContext.Session.GetInt32("UserId");
-        var user = _userService.GetUserById(userId);
+        var user = await _userService.GetUserById(userId);
         return View(UserToMyViewModel(user));
     }
 
@@ -57,8 +57,8 @@ public class EditController : Controller
                     // Save the image URL to the database
                     // ...
                     var userId = HttpContext.Session.GetInt32("UserId");
-                    var user = _userService.GetUserById(userId);
-                    _photoService.UpdateProfilePhoto(user, imageUrl);
+                    var user = await _userService.GetUserById(userId);
+                    await _photoService.UpdateProfilePhoto(user, imageUrl);
 
                     return RedirectToAction("Profile", "Edit");
                 }

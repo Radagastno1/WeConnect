@@ -30,7 +30,7 @@ public class HomeController : Controller
     {
         try
         {
-            var user = _logInService.LogIn(email, password);
+            var user = await _logInService.LogIn(email, password);
             HttpContext.Session.SetInt32("UserId", user.ID);
             return RedirectToAction("Index", "Account");
         }

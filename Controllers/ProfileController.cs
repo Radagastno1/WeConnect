@@ -28,14 +28,14 @@ public class ProfileController : Controller
         {
             //this is me
             var userId = HttpContext.Session.GetInt32("UserId");
-            var user = _userService.GetUserById(userId);
+            var user = await _userService.GetUserById(userId);
             //kollar om den finns bland mina vänner, ev ladda hem mina vänner från början??
             var friendsAsUsers = _friendService.GetMine(user);
             var friendToVisit = friendsAsUsers.Find(f => f.ID == id);
             if (friendToVisit == null)
             {
                 //OBS måste komma logik som rensar bort blockerade eller som blockerat mig!!
-                var userToVisit = _userService.GetUserById(id);
+                var userToVisit = await _userService.GetUserById(id);
 
                 return RedirectToAction("NonFriend", "Profile", UserToFriendViewModel(userToVisit));
             }
@@ -101,7 +101,7 @@ public class ProfileController : Controller
     private string SetFriendStatus(User friend)
     {
         var userId = HttpContext.Session.GetInt32("UserId");
-        var user = _userService.GetUserById(userId);
+        var user = _userService.GetUserById(userId).Result;
         string status = string.Empty;
         if (_friendService.IsFriends(user, friend.ID))
         {
