@@ -163,13 +163,14 @@ li {
     height: 80px;
 }
 
+
 #profilePhoto {
-    width: 150px;
+    width: 350px;
     height: 150px;
     object-fit: cover;
-    border-radius: 50%;
+    border-radius: 5%;
     float: left;
-    margin-right: 20px;
+    margin-left: 20px;
     margin-bottom: 20px;
 }
 
@@ -182,15 +183,7 @@ li {
     margin-bottom: 20px;
     text-align: left;
 }
-#myProfilePhoto {
-    width: 150px;
-    height: 150px;
-    object-fit: cover;
-    border-radius: 50%;
-    float: left;
-    margin-left: 20px;
-    margin-bottom: 20px;
-}
+
 .profileContainer {
     margin-left: -190px; 
     margin-top: 50px;

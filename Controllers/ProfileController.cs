@@ -31,14 +31,15 @@ public class ProfileController : Controller
             var user = await _userService.GetUserById(userId);
             //kollar om den finns bland mina vänner, ev ladda hem mina vänner från början??
             var friendsAsUsers = _friendService.GetMine(user);
-            var friendToVisit = friendsAsUsers.Find(f => f.ID == id);
-            if (friendToVisit == null)
+            var foundFriend = friendsAsUsers.Find(f => f.ID == id);
+            if (foundFriend == null)
             {
                 //OBS måste komma logik som rensar bort blockerade eller som blockerat mig!!
                 var userToVisit = await _userService.GetUserById(id);
 
                 return RedirectToAction("NonFriend", "Profile", UserToFriendViewModel(userToVisit));
             }
+            var friendToVisit = await _userService.GetUserById(foundFriend.ID);
             return RedirectToAction("Friend", "Profile", UserToFriendViewModel(friendToVisit));
         }
         catch
@@ -93,7 +94,7 @@ public class ProfileController : Controller
             BirthDate = user.BirthDate,
             Gender = user.Gender,
             AboutMe = user.AboutMe,
-            ProfilePhoto = user.ProfilePhoto,
+            ProfilePhoto = user.ProfilePhoto ?? new Photo(),
             FriendStatus = SetFriendStatus(user)
         };
     }

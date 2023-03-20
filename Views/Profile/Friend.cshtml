@@ -16,7 +16,7 @@
 </div>
 
 <div id="profileHeader">
-    @if (Model.ProfilePhoto.ImageUrl == null)
+    @if (Model.ProfilePhoto == null || Model.ProfilePhoto.ImageUrl == null)
     {
         <img src="https://i.imgur.com/ZV3o91c.jpg"
             id="profilePhoto">
@@ -24,7 +24,6 @@
     else
     {
         <img src="@Html.Raw(Model.ProfilePhoto.ImageUrl)" id="profilePhoto">
-
     }
     <h2 class="profileNameTitle" <span>
             @Model.FirstName @Model.LastName

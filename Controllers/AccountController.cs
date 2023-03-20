@@ -125,7 +125,7 @@ public class AccountController : Controller
             FirstName = user.FirstName,
             LastName = user.LastName,
             Email = user.Email,
-            ProfilePhoto = user.ProfilePhoto
+            ProfilePhoto = user.ProfilePhoto ?? new Photo()
         };
     }
 

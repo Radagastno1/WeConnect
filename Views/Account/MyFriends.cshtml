@@ -23,7 +23,7 @@
         <li id="myfriends-list">
             <a asp-controller="Profile" asp-action="ShowProfile" asp-route-id="@item.ID">
 
-                @if (item.ProfilePhoto.ImageUrl == null)
+                @if (item.ProfilePhoto.ImageUrl == null || item.ProfilePhoto == null)
                 {
                     <img src="https://i.imgur.com/ZV3o91c.jpg" id="allFriendsPhotos">
                 }

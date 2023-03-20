@@ -104,18 +104,18 @@ public class FriendService
         try
         {
             var friends = _friendsDB.GetMine(user);
-            foreach (var friend in friends)
-            {
-                var photo = _photoDB.GetProfilePhoto(friend);
-                if (photo == null)
-                {
-                    friend.ProfilePhoto = new Photo();
-                }
-                else
-                {
-                    friend.ProfilePhoto = photo;
-                }
-            }
+            // foreach (var friend in friends)
+            // {
+            //     var photo = _photoDB.GetProfilePhoto(friend);
+            //     if (photo == null)
+            //     {
+            //         friend.ProfilePhoto = new Photo();
+            //     }
+            //     else
+            //     {
+            //         friend.ProfilePhoto = photo;
+            //     }
+            // }
             return friends;
         }
         catch (InvalidOperationException)
