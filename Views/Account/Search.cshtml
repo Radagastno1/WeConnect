@@ -6,7 +6,7 @@
 <div id="mySidenav" class="sidenav">
     <a href="/Account/Index" id="mypage"><img src="https://i.imgur.com/ZKWyvlp.png" id="icon"><br>My Page</a>
     <a href="/Account/myfriends" id="myfriends">My Friends</a>
-       <a href="/Chat/Index" id="myconversations">My Conversations</a>
+    <a href="/Chat/Index" id="myconversations">My Conversations</a>
     <a href="/Account/mymeetings" id="mymeetings">My Meetings</a>
 </div>
 
@@ -22,24 +22,26 @@
     <input type="submit" id=search-button value="Search" />
 </form>
 
-@if(Model != null)
-{
-    @foreach (var item in Model)
+<div class="profiles">
+    @if (Model != null)
     {
-          <a asp-controller="Profile" asp-action="ShowProfile" asp-route-id="@item.ID">
-        <li>
-            @if(item.ProfilePhoto == null || item.ProfilePhoto.ImageUrl == null)
-            {
-                <img src="https://i.imgur.com/ZV3o91c.jpg" id="profilePhoto">
-            }
-            else
-            {
- <img src="@Html.Raw(item.ProfilePhoto.ImageUrl)" id="allFriendsPhotos">
+        @foreach (var item in Model)
+        {
+              <li id="search-list">
+            <a asp-controller="Profile" asp-action="ShowProfile" asp-route-id="@item.ID">
+                    @if (item.ProfilePhoto == null || item.ProfilePhoto.ImageUrl == null)
+                    {
+                        <img src="https://i.imgur.com/ZV3o91c.jpg" id="allSearchPhotos">
+                    }
+                    else
+                    {
+                        <img src="@Html.Raw(item.ProfilePhoto.ImageUrl)" id="allSearchPhotos">
 
-            }
-            @Html.DisplayFor(x => item.FirstName)
-            @Html.DisplayFor(x => item.LastName)
-        </li>
-    </a>
+                    }
+                    @Html.DisplayFor(x => item.FirstName)
+                    @Html.DisplayFor(x => item.LastName)
+            </a>
+             </li>
+        }
     }
-}
+</div>

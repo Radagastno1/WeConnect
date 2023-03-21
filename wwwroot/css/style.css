@@ -152,7 +152,6 @@ li {
     display: inline-block;
     text-align: left;
     margin-bottom: 10px;
-    color: rgb(70, 158, 246);
     font-weight: bold;
     font-size: x-large;
     list-style: none;
@@ -270,13 +269,27 @@ li {
 }
 
 .profiles {
-    display: grid;
-}
-#myfriends-list{
-    margin-top: 10px;
-}
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+ }
+ #myfriends-list, #search-list {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 10px;
+ }
 
-/* Chat containers */
+ #allFriendsPhotos, #allSearchPhotos {
+    margin-right: 10px;
+    width: 50px; 
+ }
+ 
+ #myfriends-list a, #search-list a {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+ }
 .chatcontainer {
     border: 2px solid #dedede;
     background-color: #f1f1f1;
