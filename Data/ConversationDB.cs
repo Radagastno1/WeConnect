@@ -134,7 +134,7 @@ public class ConversationDB
         }
         return null;
     }
-    public void UpdateConversationToRead(int conversationId, int userId)
+    public async Task UpdateConversationToReadAsync(int conversationId, int userId)
     {   
         string query = "UPDATE users_conversations " + 
         "SET is_read = true " + 
@@ -142,6 +142,6 @@ public class ConversationDB
          using MySqlConnection con = new MySqlConnection(
             $"Server=localhost;Database=facebook_lite;Uid=root;Pwd=;"
         );
-        con.ExecuteScalar(query, new{@userId = userId, @conversationId = conversationId});
+        await con.ExecuteScalarAsync(query, new{@userId = userId, @conversationId = conversationId});
     }
 }

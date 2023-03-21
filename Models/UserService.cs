@@ -42,30 +42,31 @@ public class UserService
 
     public async Task<List<User>> GetBySearch(string name, User user)
     {
-        List<User> foundUsers = _usersDB.GetSearches(name);
-        List<User> usersAvailable = new();
-        foreach (User u in foundUsers)
+        try
         {
-            User availableUser = _usersDB.GetOne(u.ID, user);
-            if (availableUser != null)
+            List<User> foundUsers = _usersDB.GetSearches(name);
+            List<User> usersAvailable = new();
+            foreach (User u in foundUsers)
             {
-                usersAvailable.Add(availableUser);
+                User availableUser = _usersDB.GetOne(u.ID, user);
+
+                if (availableUser != null)
+                {
+                    var photo = _photoDB.GetProfilePhoto(availableUser);
+                    availableUser.ProfilePhoto = photo ?? new Photo();
+                    usersAvailable.Add(availableUser);
+                }
             }
+            return usersAvailable;
         }
-        return usersAvailable;
+        catch (Exception)
+        {
+            return null;
+        }
     }
 
     public async Task<User> GetOne(int id, User user)
     {
-        // List<User> allUsers = _userData.GetAll();
-        // User user = new();
-        // foreach (User item in allUsers)
-        // {
-        //     if (item.ID == id)
-        //     {
-        //         user = item;
-        //     }
-        // }
         try
         {
             User foundUser = _usersDB.GetOne(id, user);

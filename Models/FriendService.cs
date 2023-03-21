@@ -7,11 +7,13 @@ public class FriendService
     FriendsDB _friendsDB;
     PhotoDB _photoDB;
     Action<User>UpdatingFriendStatus;
+    UserService _userService;
 
-    public FriendService(FriendsDB friendsDB, PhotoDB photoDB)
+    public FriendService(FriendsDB friendsDB, PhotoDB photoDB, UserService userService)
     {
         _friendsDB = friendsDB;
         _photoDB = photoDB;
+        _userService = userService;
         UpdatingFriendStatus += Update;
     }
 
@@ -99,23 +101,16 @@ public class FriendService
         }
     }
 
-    public List<User> GetMine(User user)
+    public async Task<List<User>> GetMine(User user)
     {
         try
         {
             var friends = _friendsDB.GetMine(user);
-            // foreach (var friend in friends)
-            // {
-            //     var photo = _photoDB.GetProfilePhoto(friend);
-            //     if (photo == null)
-            //     {
-            //         friend.ProfilePhoto = new Photo();
-            //     }
-            //     else
-            //     {
-            //         friend.ProfilePhoto = photo;
-            //     }
-            // }
+            List<User> friendsToReturn = new();
+            foreach(var friend in friends)
+            {
+                friend.ProfilePhoto = _photoDB.GetProfilePhoto(friend);
+            }
             return friends;
         }
         catch (InvalidOperationException)
@@ -125,10 +120,10 @@ public class FriendService
         }
     }
 
-    public void LoadFriends(User user)
+    public async Task LoadFriends(User user)
     {
         user.MyFriends.Clear();
-        user.MyFriends = GetMine(user);
+        user.MyFriends = await GetMine(user);
     }
 
     public int Delete(User user, int friendId)

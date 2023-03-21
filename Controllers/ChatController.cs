@@ -91,7 +91,7 @@ public class ChatController : Controller
     {
         var userId = HttpContext.Session.GetInt32("UserId");
         var user = await _userService.GetUserById(userId);
-        var friends = _friendService.GetMine(user);
+        var friends = await _friendService.GetMine(user);
         return View(FriendsToViewModel(friends));
     }
 

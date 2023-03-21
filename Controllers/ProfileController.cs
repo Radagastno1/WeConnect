@@ -30,7 +30,7 @@ public class ProfileController : Controller
             var userId = HttpContext.Session.GetInt32("UserId");
             var user = await _userService.GetUserById(userId);
             //kollar om den finns bland mina vänner, ev ladda hem mina vänner från början??
-            var friendsAsUsers = _friendService.GetMine(user);
+            var friendsAsUsers = await _friendService.GetMine(user);
             var foundFriend = friendsAsUsers.Find(f => f.ID == id);
             if (foundFriend == null)
             {

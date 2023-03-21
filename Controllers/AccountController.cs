@@ -60,7 +60,8 @@ public class AccountController : Controller
         {
             var userId = HttpContext.Session.GetInt32("UserId");
             var user = await _userService.GetUserById(userId);
-            var friendsAsUsers = _friendService.GetMine(user);
+            
+            var friendsAsUsers = await _friendService.GetMine(user);
             var friendsAsViewModels = FriendsToViewModel(friendsAsUsers);
             return View(friendsAsViewModels);
         }

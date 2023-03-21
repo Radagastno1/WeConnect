@@ -185,6 +185,6 @@ public class ConversationService
 
     public async Task UpdateConversationAsRead(int conversationId, int userId)
     {
-        _conversationDB.UpdateConversationToRead(conversationId, userId);
+        await _conversationDB.UpdateConversationToReadAsync(conversationId, userId);
     }
 }
