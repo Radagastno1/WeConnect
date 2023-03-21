@@ -39,8 +39,8 @@ public class ProfileController : Controller
 
                 return RedirectToAction("NonFriend", "Profile", UserToFriendViewModel(userToVisit));
             }
-            var friendToVisit = await _userService.GetUserById(foundFriend.ID);
-            return RedirectToAction("Friend", "Profile", UserToFriendViewModel(friendToVisit));
+            // var friendToVisit = await _userService.GetUserById(foundFriend);
+            return RedirectToAction("Friend", "Profile", UserToFriendViewModel(foundFriend));
         }
         catch
         {

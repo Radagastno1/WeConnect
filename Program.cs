@@ -6,10 +6,10 @@ builder.Services.AddSession();
 
 
 //ATT GÖRA!
-//1. async i querygenerator
-//2. starta en chatt
+//1. async i querygenerator och db? kolla upp var det behövs och var det ej behövs
+//2. profilbild hos vän och icke vän visas ej?
 //3. komma till dialog om inne på väns sida, som i facebook_lite
-//4. ladda upp profilbild
+
 
 builder.Services.AddScoped<WeConnect.Data.BlockingsDB>();
 builder.Services.AddScoped<WeConnect.Data.CommentsDB>();
