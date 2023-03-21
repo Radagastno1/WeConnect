@@ -32,7 +32,9 @@ public class ChatController : Controller
             var userId = HttpContext.Session.GetInt32("UserId");
             var user = await _userService.GetUserById(userId);
             List<int> conversationIds = await _conversationService.GetAllMyConversationsIds(user);
-            List<Conversation> myConversations = await _conversationService.GetById(conversationIds);
+            List<Conversation> myConversations = await _conversationService.GetById(
+                conversationIds
+            );
             IEnumerable<ConversationViewModel> conversationsViewModels = myConversations.Select(
                 c => ConversationToViewModel(c)
             );
@@ -52,11 +54,13 @@ public class ChatController : Controller
             int userId = HttpContext.Session.GetInt32("UserId").GetValueOrDefault();
             var user = await _userService.GetUserById(userId);
             var messages = await _messageService.GetAll(id, user);
-            List<MessageViewModel> messagesViewModels = messages
-                .Select(m => MessageToViewModel(m))
-                .ToList();
-            _conversationService.UpdateConversationAsRead(id, userId);
-            return View(GenerateMyMessagesViewModel(user, messagesViewModels));
+            List<MessageViewModel> messagesViewModels = new();
+            if (messages != null)
+            {
+                messagesViewModels = messages.Select(m => MessageToViewModel(m)).ToList();
+            }
+            await _conversationService.UpdateConversationAsRead(id, userId);
+            return View(ConversationWithMessagesToViewModel(id, GenerateMyMessagesViewModel(user, messagesViewModels)));
         }
         catch
         {
@@ -75,12 +79,32 @@ public class ChatController : Controller
             await _messageService.Create(content, senderId: user.ID, conversationId);
             var messages = await _messageService.GetAll(conversationId, user);
             var messagesViewModels = messages.Select(m => MessageToViewModel(m));
-            return RedirectToAction("ViewConversation", "Chat", new{id = conversationId});
+            return RedirectToAction("ViewConversation", "Chat", new { id = conversationId });
         }
         catch
         {
             return RedirectToAction("index");
         }
+    }
+
+    public async Task<IActionResult> NewConversation()
+    {
+        var userId = HttpContext.Session.GetInt32("UserId");
+        var user = await _userService.GetUserById(userId);
+        var friends = _friendService.GetMine(user);
+        return View(FriendsToViewModel(friends));
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> NewConversation(List<int> userIds)
+    {
+        var userId = HttpContext.Session.GetInt32("UserId");
+        var user = await _userService.GetUserById(userId);
+
+        List<User> participants = await _userService.GetUsersById(userIds, user);
+        int conversationId = await _conversationService.MakeNew(participants, user);
+
+        return RedirectToAction("ViewConversation", "Chat", new { id = conversationId });
     }
 
     private ConversationViewModel ConversationToViewModel(Conversation conversation)
@@ -89,6 +113,15 @@ public class ChatController : Controller
         {
             ID = conversation.ID,
             ParticipantsNames = conversation.ParticipantsNames
+        };
+    }
+     private ConversationViewModel ConversationWithMessagesToViewModel(int conversationId, MyMessagesViewModel myMessagesViewModels)
+    {
+        return new ConversationViewModel
+        {
+            ID = conversationId,
+            Messages =  myMessagesViewModels.MessageViewModels ?? new List<MessageViewModel>(),
+            MyViewModel = myMessagesViewModels.MyViewModel
         };
     }
 
@@ -129,7 +162,25 @@ public class ChatController : Controller
             Password = user.PassWord,
             BirthDate = user.BirthDate,
             Gender = user.Gender,
-            AboutMe = user.AboutMe
+            AboutMe = user.AboutMe,
+            ProfilePhoto = user.ProfilePhoto ?? new Photo()
         };
+    }
+
+    private FriendViewModel UserToFriendViewModel(User user)
+    {
+        return new FriendViewModel()
+        {
+            ID = user.ID,
+            FirstName = user.FirstName,
+            LastName = user.LastName,
+            Email = user.Email,
+            ProfilePhoto = user.ProfilePhoto ?? new Photo()
+        };
+    }
+
+    private List<FriendViewModel> FriendsToViewModel(List<User> users)
+    {
+        return users.Select(u => UserToFriendViewModel(u)).ToList();
     }
 }

@@ -48,7 +48,7 @@ public class ProfileController : Controller
         }
     }
 
-    public async Task<ActionResult<FriendViewModel>> Friend(FriendViewModel friend)
+    public ActionResult<FriendViewModel> Friend(FriendViewModel friend)
     {
         try
         {
@@ -60,7 +60,7 @@ public class ProfileController : Controller
         }
     }
 
-    public async Task<ActionResult<FriendViewModel>> NonFriend(FriendViewModel userToVisit)
+    public ActionResult<FriendViewModel> NonFriend(FriendViewModel userToVisit)
     {
         try
         {
@@ -73,7 +73,7 @@ public class ProfileController : Controller
         }
     }
 
-    public async Task<IActionResult> Error()
+    public IActionResult Error()
     {
         return View();
     }

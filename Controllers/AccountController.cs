@@ -76,7 +76,7 @@ public class AccountController : Controller
         return RedirectToAction("Index", "Home");
     }
 
-    public async Task<ActionResult> Search()
+    public IActionResult Search()
     {
         return View();
     }

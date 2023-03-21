@@ -1,4 +1,4 @@
-@model WeConnect.ViewModels.MyMessagesViewModel
+@model WeConnect.ViewModels.ConversationViewModel
 @{
     ViewData["Title"] = "Chat";
 }
@@ -17,7 +17,7 @@
 
 <form method="post" asp-action="SendMessage">
     <div class="chat-window">
-        @foreach (var item in Model.MessageViewModels)
+        @foreach (var item in Model.Messages)
         {
             <div class="@((item.SenderId == Model.MyViewModel.Id) ? "darker" : "chatcontainer")">
                 <img src="https://icons.veryicon.com/png/o/miscellaneous/basic-icon/message-54.png" alt="Avatar">
@@ -25,11 +25,8 @@
                 <p>@item.Content</p>
                 <span class="time-right">@item.DateCreated</span>
             </div>
-            @if (item == Model.MessageViewModels.Last())
-            {
-                <input type="hidden" name="ConversationId" value="@item.ConversationId" />
-            }
         }
+        <input type="hidden" name="conversationId" value="@Model.ID" />
         <textarea placeholder="Type message.." name="Content" required></textarea>
         <button type="submit" class="btn">Send</button>
     </div>
@@ -41,28 +38,6 @@
         chatWindow.scrollTop = chatWindow.scrollHeight;
     }
 </script>
-
-@*
-<div class="container darker">
-<img src="/w3images/avatar_g2.jpg" alt="Avatar" class="right">
-<p>@Model[2].Sender</p>
-<p>@Model[2].Content</p>
-<span class="time-left">@Model[2].DateCreated</span>
-</div>
-
-<div class="container">
-<img src="/w3images/bandmember.jpg" alt="Avatar">
-<p>@Model[1].Sender</p>
-<p>@Model[1].Content</p>
-<span class="time-right">@Model[1].DateCreated</span>
-</div>
-
-<div class="container darker">
-<img src="/w3images/avatar_g2.jpg" alt="Avatar" class="right">
-<p>@Model[0].Sender</p>
-<p>@Model[0].Content</p>
-<span class="time-left">@Model[0].DateCreated</span>
-</div> *@
 
 
 

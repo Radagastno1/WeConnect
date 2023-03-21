@@ -104,12 +104,12 @@ public class ConversationService
     {
         Conversation conversation = new();
         conversation.CreatorId = user.ID;
-        int conversationId = Create(conversation).GetHashCode(); //KOLLA UPP?? innan var det getdefault..
+        int conversationId = Create(conversation).Result.GetValueOrDefault();
         participants.Add(user);
         foreach (User item in participants)
         {
             conversation.ParticipantId = item.ID;
-            Update(conversation);
+            await Update(conversation);
         }
         return conversationId;
     }

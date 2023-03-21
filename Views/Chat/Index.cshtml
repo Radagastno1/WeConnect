@@ -17,13 +17,24 @@
 
 <h3 id=friendsh3>My Conversations</h3>
 
+<div class="form-container">
+    <form asp-controller="Chat" asp-action="NewConversation" method="get">
+        <button type="submit" class="btn btn-primary">New Conversation</button>
+    </form>
+
+    <form id="search-form" method="post" action="SearchConversation">
+        <input type="text" name="search" />
+        <input type="submit" id="search-button" value="Search" />
+    </form>
+</div>
+
+
 @foreach (var item in Model)
 {
-    <a asp-controller="Chat" asp-action="ViewConversation" asp-route-id="@item.ID">
-        <div class="container">
-            @Html.DisplayFor(x => item.ParticipantsNames)
-        </div>
-    </a>
+    <form asp-controller="Chat" asp-action="ViewConversation" method="get">
+        <input type="hidden" name="id" value="@item.ID" />
+        <button type="submit">@item.ParticipantsNames</button>
+    </form>
 }
 
 

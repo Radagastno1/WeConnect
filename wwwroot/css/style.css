@@ -339,3 +339,14 @@ li {
 .edit-form{
    display: inline-flex;
 }
+
+.form-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+form {
+    margin: 20px;
+}

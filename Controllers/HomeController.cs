@@ -15,12 +15,12 @@ public class HomeController : Controller
         _userService = userService;
     }
 
-    public async Task<IActionResult> Index()
+    public IActionResult Index()
     {
         return View();
     }
 
-    public async Task<IActionResult> SignIn()
+    public IActionResult SignIn()
     {
         return View();
     }
@@ -41,7 +41,7 @@ public class HomeController : Controller
         }
     }
 
-    public async Task<IActionResult> SignUp()
+    public IActionResult SignUp()
     {
         return View();
     }
@@ -52,7 +52,7 @@ public class HomeController : Controller
     //     return 
     // }
 
-    public async Task<IActionResult> Contact()
+    public IActionResult Contact()
     {
         return View();
     }

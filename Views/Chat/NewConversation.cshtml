@@ -1,0 +1,32 @@
+@model List<WeConnect.ViewModels.FriendViewModel>
+@{
+    ViewData["Title"] = "Chat";
+}
+
+<div id="mySidenav" class="sidenav">
+    <a href="/Account/Index" id="mypage"><img src="https://i.imgur.com/ZKWyvlp.png" id="icon"><br>My Page</a>
+    <a href="/Account/myfriends" id="myfriends">My Friends</a>
+    <a href="/Chat/Index" id="myconversations">My Conversations</a>
+    <a href="/Account/mymeetings" id="mymeetings">My Meetings</a>
+</div>
+
+<div id="myRightSidenav" class="rightsidenav">
+    <a href="/Account/search" id="search">Search</a>
+    <a href="/Account/signout" id="signout">Sign out</a>
+</div>
+
+<h3 id=friendsh3>New Conversation</h3>
+
+<form asp-controller="Chat" asp-action="NewConversation" method="post">
+    <div id="checkboxes">
+        <label for="userIds">Choose people to start a conversation:</label>
+        @foreach (var item in Model)
+        {
+            <div>
+                <input type="checkbox" id="userIds" name="userIds[]" value="@item.ID">
+                <label for="@item.ID">@item.FirstName @item.LastName</label>
+            </div>
+        }
+    </div>
+    <button type="submit">Begin chat</button>
+</form>
