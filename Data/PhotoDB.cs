@@ -20,7 +20,7 @@ public class PhotoDB
             return null;
         }
     }
-    public Photo GetProfilePhoto(User user)
+    public async Task<Photo> GetProfilePhotoAsync(User user)
     {
         string query =
             "SELECT p.id, p.image_url AS 'ImageURL' FROM photos p " +
@@ -33,7 +33,7 @@ public class PhotoDB
         {
             using MySqlConnection con =
                 new($"Server=localhost;Database=facebook_lite;Uid=root;Pwd=;");
-            var photo = con.QuerySingle<Photo>(query, new { @id = user.ID });
+            var photo = await con.QuerySingleAsync<Photo>(query, new { @id = user.ID });
             return photo;
         }
         catch { 

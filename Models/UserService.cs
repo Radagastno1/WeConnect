@@ -25,7 +25,7 @@ public class UserService
         try
         {
             var user = _usersDB.GetUserById(id);
-            var photo = _photoDB.GetProfilePhoto(user);
+            var photo = await _photoDB.GetProfilePhotoAsync(user);
             user.ProfilePhoto = photo ?? new Photo();
             return user;
         }
@@ -52,7 +52,7 @@ public class UserService
 
                 if (availableUser != null)
                 {
-                    var photo = _photoDB.GetProfilePhoto(availableUser);
+                    var photo = await _photoDB.GetProfilePhotoAsync(availableUser);
                     availableUser.ProfilePhoto = photo ?? new Photo();
                     usersAvailable.Add(availableUser);
                 }

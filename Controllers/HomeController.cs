@@ -46,12 +46,6 @@ public class HomeController : Controller
         return View();
     }
 
-    // [HttpPost]
-    // public IActionResult SignUp(string email, string password) 
-    // { 
-    //     return 
-    // }
-
     public IActionResult Contact()
     {
         return View();

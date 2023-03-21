@@ -36,9 +36,8 @@ public class FriendsDB
         return rows;
     }
 
-    public List<User> GetMine(User user)
+    public async Task<List<User>> GetMineAsync(User user)
     {
-        List<User> friends = new();
         using MySqlConnection connection = new MySqlConnection(
             $"Server=localhost;Database=facebook_lite;Uid=root;Pwd=;"
         );
@@ -47,8 +46,9 @@ public class FriendsDB
             + "u.about_me as 'AboutMe' FROM users u "
             + "INNER JOIN users_friends uf ON u.id = uf.users_id2 "
             + "WHERE uf.users_id1 = @userId AND uf.is_accepted = TRUE;";
-        friends = connection.Query<User>(query, new { @userId = user.ID }).ToList();
-        return friends;
+        var friends = await connection.QueryAsync<User>(query, new { @userId = user.ID });
+        List<User> friendsToList = friends.ToList() ?? new();
+        return friendsToList;
     }
 
     public List<int> GetMyFriendRequests(User user)

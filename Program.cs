@@ -30,10 +30,6 @@ builder.Services.AddScoped<WeConnect.Models.MessgageService>();
 builder.Services.AddScoped<WeConnect.Models.NotificationService>();
 builder.Services.AddScoped<WeConnect.Models.PhotoService>();
 
-
-
-
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

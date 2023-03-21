@@ -105,11 +105,11 @@ public class FriendService
     {
         try
         {
-            var friends = _friendsDB.GetMine(user);
+            var friends = await _friendsDB.GetMineAsync(user);
             List<User> friendsToReturn = new();
             foreach(var friend in friends)
             {
-                friend.ProfilePhoto = _photoDB.GetProfilePhoto(friend);
+                friend.ProfilePhoto = await _photoDB.GetProfilePhotoAsync(friend) ?? new Photo();
             }
             return friends;
         }
