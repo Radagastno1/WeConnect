@@ -17,6 +17,21 @@ public class HomeController : Controller
 
     public IActionResult Index()
     {
+        // Kolla om cookien redan finns
+        bool cookieExists = HttpContext.Request.Cookies.ContainsKey("TestCookie");
+        if (!cookieExists)
+        {
+            // Om cookien inte finns, visa popup-rutan
+            ViewBag.ShowCookiePopup = true;
+
+            //Sätt cookien
+        HttpContext.Response.Cookies.Append("TestCookie", "12345");
+        }
+        else
+        {
+            // Om cookien finns, dölj popup-rutan
+            ViewBag.ShowCookiePopup = false;
+        }
         return View();
     }
 

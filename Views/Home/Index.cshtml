@@ -8,6 +8,29 @@
     <a href="Home/Contact" id="contact">Contact</a>
 </div>
 
+@if (ViewBag.ShowCookiePopup)
+{
+    <div id="cookie-popup">
+        <p>Vi använder cookies för att förbättra din användarupplevelse. Klicka på "Acceptera" för att fortsätta.</p>
+        <button onclick="acceptCookies()">Acceptera</button>
+    </div>
+}
 
 
+
+<script>
+    window.onload = checkCookies;
+
+    function checkCookies() {
+        if (!document.cookie.includes("TestCookie")) {
+            document.getElementById("cookie-popup").style.display = "block";
+        }
+    }
+
+    function acceptCookies() {
+        document.cookie = "TestCookie=12345";
+        document.getElementById("cookie-popup").style.display = "none";
+    }
+
+</script>
 
