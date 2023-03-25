@@ -2,42 +2,49 @@ using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using WeConnect.Models;
 using WeConnect.ViewModels;
-using Newtonsoft.Json;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WeConnect.Controllers;
 
-public class AccountController : Controller
+public class AccountController : BaseController
 {
     private readonly FriendService _friendService;
     private readonly UserService _userService;
     private readonly ConversationService _conversationService;
     private readonly NotificationService _notificationService;
+    private readonly IConfiguration _configuration;
 
     public AccountController(
         FriendService friendService,
         UserService userService,
         ConversationService conversationService,
-        NotificationService notificationService
+        NotificationService notificationService,
+        IConfiguration configuration
     )
+        : base(configuration)
     {
         _friendService = friendService;
         _userService = userService;
         _conversationService = conversationService;
         _notificationService = notificationService;
-
+        _configuration = configuration;
     }
 
+    [Authorize]
     public async Task<IActionResult> Index()
     {
+        Console.WriteLine("Account Index action method is called.");
         try
         {
-            var userId = HttpContext.Session.GetInt32("UserId");
+            var jwtToken = User.FindFirst("jwtToken");
+            var jwtTokenString = jwtToken.Value;
+
+            var userId = GetUserIdFromToken(jwtTokenString);
             var user = await _userService.GetUserById(userId);
 
             var notifications =
                 await _notificationService.GetUnreadNotifications(user) ?? new List<Notification>();
 
-            //HÄMTA ALLA UNREAD OF MY MESSAGES!!!!
             var conversations = await _conversationService.GetUnreadConversations(user);
 
             var myViewModel = UserToMyViewModel(user, notifications, conversations);
@@ -60,7 +67,7 @@ public class AccountController : Controller
         {
             var userId = HttpContext.Session.GetInt32("UserId");
             var user = await _userService.GetUserById(userId);
-            
+
             var friendsAsUsers = await _friendService.GetMine(user);
             var friendsAsViewModels = FriendsToViewModel(friendsAsUsers);
             return View(friendsAsViewModels);
@@ -130,7 +137,11 @@ public class AccountController : Controller
         };
     }
 
-    private MyViewModel UserToMyViewModel(User user, List<Notification> notifications, List<Conversation> conversations)
+    private MyViewModel UserToMyViewModel(
+        User user,
+        List<Notification> notifications,
+        List<Conversation> conversations
+    )
     {
         return new MyViewModel
         {
@@ -142,19 +153,25 @@ public class AccountController : Controller
             BirthDate = user.BirthDate,
             Gender = user.Gender,
             AboutMe = user.AboutMe,
-            Notifications = NotificationsToViewModels(notifications, user) ?? new List<NotificationViewModel>(),
-            Conversations = ConversationsToViewModels(conversations) ?? new List<ConversationViewModel>(),
+            Notifications =
+                NotificationsToViewModels(notifications, user) ?? new List<NotificationViewModel>(),
+            Conversations =
+                ConversationsToViewModels(conversations) ?? new List<ConversationViewModel>(),
             ProfilePhoto = user.ProfilePhoto ?? new Photo()
         };
     }
+
     private List<ConversationViewModel> ConversationsToViewModels(List<Conversation> conversations)
     {
-        List<ConversationViewModel> conversationViewModels =  conversations.Select(c => new ConversationViewModel{
-            ID = c.ID,
-            ParticipantsNames = c.ParticipantsNames
-        }).ToList();
+        List<ConversationViewModel> conversationViewModels = conversations
+            .Select(
+                c =>
+                    new ConversationViewModel { ID = c.ID, ParticipantsNames = c.ParticipantsNames }
+            )
+            .ToList();
         return conversationViewModels;
     }
+
     private List<NotificationViewModel> NotificationsToViewModels(
         List<Notification> notifications,
         User user
