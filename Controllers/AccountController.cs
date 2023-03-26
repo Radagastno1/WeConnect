@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using WeConnect.Models;
 using WeConnect.ViewModels;
 using Microsoft.AspNetCore.Authorization;
+using System.IdentityModel.Tokens.Jwt;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace WeConnect.Controllers;
 
@@ -30,16 +32,25 @@ public class AccountController : BaseController
         _configuration = configuration;
     }
 
-    [Authorize]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    // [Authorize]
     public async Task<IActionResult> Index()
     {
-        Console.WriteLine("Account Index action method is called.");
+        Console.WriteLine("AccountControllers Index action method is called.");
         try
         {
-            var jwtToken = User.FindFirst("jwtToken");
-            var jwtTokenString = jwtToken.Value;
+            // var jwtTokenString = Request.Cookies["AuthCookie"];
+            var jwtTokenString = Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
 
-            var userId = GetUserIdFromToken(jwtTokenString);
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var token = tokenHandler.ReadJwtToken(jwtTokenString);
+
+            // Hämta användarens id från JWT-tokenet
+            var userId = int.Parse(
+                token.Claims.FirstOrDefault(x => x.Type == JwtRegisteredClaimNames.Sub)?.Value
+            );
+
+            // var userId = GetUserIdFromToken(jwtTokenString);
             var user = await _userService.GetUserById(userId);
 
             var notifications =

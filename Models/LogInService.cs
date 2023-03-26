@@ -3,6 +3,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 using System.Security.Claims;
 using Microsoft.IdentityModel.Tokens;
+using System.Security.Cryptography;
 
 namespace WeConnect.Models;
 
@@ -22,9 +23,9 @@ public class LogInService
     {
         try
         {
-            User user = _logInDB.GetMemberByLogIn(email, passWord);
+            User user = await _logInDB.GetMemberByLogInAsync(email, passWord);
             // ActivateOnLogIn?.Invoke(user.ID);
-            _logInDB.UpdateToActivated(user.ID);
+            await _logInDB.UpdateToActivatedAsync(user.ID);
             return user;
         }
         catch (InvalidOperationException)
@@ -33,34 +34,29 @@ public class LogInService
         }
     }
 
-    public string GenerateJwtToken(int userId, string userRole)
+    public string GenerateJwtToken(int userId)
     {
-        var claims = new List<Claim>
-        {
-            new Claim(JwtRegisteredClaimNames.Sub, userId.ToString()),
-            new Claim(ClaimTypes.Role, userRole)
-        };
+        //lagrar userns id i jwt tokenen
+        var claims = new List<Claim> { new Claim(JwtRegisteredClaimNames.Sub, userId.ToString()) };
 
-        var secretKey = new SymmetricSecurityKey(
-            Encoding.UTF8.GetBytes(
-                Convert.ToString(_configuration.GetSection("JwtSettings:SecretKey").Value)
-            )
-        );
-        var creds = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
-        var expires = DateTime.Now.AddDays(
-            Convert.ToDouble(
-                Convert.ToString(_configuration.GetSection("JwtSettings:Expires").Value)
-            )
-        );
+        // Hämtar min secretkey ifrån appsettings.json
+        var secretKey = Encoding.UTF8.GetBytes(_configuration["JwtSettings:mySecretKey"]);
+
+        var expires = DateTime.Now.AddDays(Convert.ToDouble(_configuration["JwtSettings:Expires"]));
+
+        // skapar en signatur som ska verifiera jwt tokenen 
+        var signingKey = new SymmetricSecurityKey(secretKey);
 
         var token = new JwtSecurityToken(
-            Convert.ToString(_configuration.GetSection("JwtSettings:myIssuer")),
-            Convert.ToString(_configuration.GetSection("JwtSettings:myAudience")),
+            _configuration["JwtSettings:myIssuer"],
+            _configuration["JwtSettings:myAudience"],
             claims,
             expires: expires,
-            signingCredentials: creds
+            signingCredentials: new SigningCredentials(
+                signingKey,
+                SecurityAlgorithms.HmacSha256Signature
+            )
         );
-
         return new JwtSecurityTokenHandler().WriteToken(token);
     }
 }

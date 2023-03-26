@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,23 +16,19 @@ builder.Services.AddAuthentication(options =>
 {
     options.RequireHttpsMetadata = false;
     options.SaveToken = true;
+    options.IncludeErrorDetails = true;
     options.TokenValidationParameters = new TokenValidationParameters
     {
-        ValidateIssuer = true,
-        ValidateAudience = true,
-        ValidateLifetime = true,
         ValidateIssuerSigningKey = true,
-        ValidIssuer = builder.Configuration["JwtSettings:Issuer"],
-        ValidAudience = builder.Configuration["JwtSettings:Audience"],
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JwtSettings:SecretKey"]))
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(builder.Configuration.GetSection("JwtSettings:mySecretKey").Value)),
+        ValidateIssuer = true,
+        ValidIssuer = builder.Configuration.GetSection("JwtSettings:myIssuer").Value,
+        ValidateAudience = true,
+        ValidAudience = builder.Configuration.GetSection("JwtSettings:myAudience").Value,
+        ValidateLifetime = true,
+        ClockSkew = TimeSpan.Zero
     };
 });
-builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-    .AddCookie(options =>
-    {
-        options.Cookie.Name = "your-cookie-name";
-    });
-
 
 builder.Services.AddSession();
 
@@ -73,9 +69,9 @@ app.UseSession();
 
 app.UseHttpsRedirection();
 
-app.UseAuthentication();
-
 app.UseRouting();
+
+app.UseAuthentication();
 app.UseAuthorization();
 app.UseStaticFiles();
 

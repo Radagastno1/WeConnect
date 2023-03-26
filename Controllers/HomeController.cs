@@ -1,15 +1,7 @@
 ﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using WeConnect.Models;
-using System.IdentityModel.Tokens.Jwt;
-using System.Text;
-using System.Security.Claims;
-using Microsoft.IdentityModel.Tokens;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
-using System.IdentityModel.Tokens.Jwt;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace WeConnect.Controllers;
 
@@ -58,7 +50,6 @@ public class HomeController : Controller
 
     [HttpPost]
     [AllowAnonymous]
-    // [ValidateAntiForgeryToken]
     public async Task<IActionResult> SignIn(string email, string password)
     {
         try
@@ -70,22 +61,16 @@ public class HomeController : Controller
                 return BadRequest("Invalid email or password.");
             }
 
-            // Get JWT token for the user
-            var jwtSecurityToken = _logInService.GenerateJwtToken(user.ID, "Member");
+           //hämtar jwt token med det unika id:t
+            var jwtSecurityToken = _logInService.GenerateJwtToken(user.ID);
 
-            // Add the token to an HttpOnly cookie
-            var options = new CookieOptions
-            {
-                HttpOnly = true,
-                Expires = DateTime.UtcNow.AddDays(7)
-            };
-            Response.Cookies.Append("your-cookie-name", jwtSecurityToken, options);
+            Response.Headers.Add("Authorization", "Bearer " + jwtSecurityToken);
 
-            return RedirectToAction("Index", "Account", new { token = jwtSecurityToken });
+            return RedirectToAction("Index", "Account");
         }
         catch (Exception e)
         {
-            Debug.WriteLine("ERROR:" + e.Message);
+            Debug.WriteLine("error:" + e.Message);
             return RedirectToAction("Index", "Home");
         }
     }

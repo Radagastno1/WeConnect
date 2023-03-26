@@ -4,7 +4,7 @@ using MySqlConnector;
 namespace WeConnect.Data;
 public class LogInDB 
 {
-    public User GetMemberByLogIn(string email, string passWord)
+    public async Task<User> GetMemberByLogInAsync(string email, string passWord)
     {
         User user = new();
         string query =
@@ -13,10 +13,10 @@ public class LogInDB
         "FROM users u " +
         "WHERE email = @Email AND pass_word = @PassWord AND u.role_id = 5 AND is_deleted = FALSE;";
         using MySqlConnection con = new MySqlConnection($"Server=localhost;Database=facebook_lite;Uid=root;Pwd=;Allow User Variables=True;");
-        user = con.QuerySingle<User>(query, new { @Email = email, @PassWord = passWord });
+        user = await con.QuerySingleAsync<User>(query, new { @Email = email, @PassWord = passWord });
         return user;
     }
-    public int UpdateToActivated(int userId)
+    public async Task<int> UpdateToActivatedAsync(int userId)
     {
         string query = "START TRANSACTION;" +
         "UPDATE users SET is_active = TRUE WHERE id = @id;" +
@@ -24,7 +24,7 @@ public class LogInDB
         "UPDATE posts SET is_visible = TRUE WHERE users_id = @id; " +
         "COMMIT;";
         using MySqlConnection con = new MySqlConnection($"Server=localhost;Database=facebook_lite;Uid=root;Pwd=;Allow User Variables=True;");
-        int rows = con.ExecuteScalar<int>(query, new { @id = userId });
+        int rows = await con.ExecuteScalarAsync<int>(query, new { @id = userId });
         return rows;   //returnerar ej rows
     }
 }
