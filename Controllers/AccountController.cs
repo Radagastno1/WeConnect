@@ -36,7 +36,7 @@ public class AccountController : BaseController
     // [Authorize]
     public async Task<IActionResult> Index()
     {
-        Console.WriteLine("AccountControllers Index action method is called.");
+        Console.WriteLine("AccountControllers Index action is called.");
         try
         {
             // var jwtTokenString = Request.Cookies["AuthCookie"];

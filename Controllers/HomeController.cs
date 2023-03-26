@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using WeConnect.Models;
 using Microsoft.AspNetCore.Authorization;
+using System.Net.Http.Headers;
 
 namespace WeConnect.Controllers;
 
@@ -48,6 +49,34 @@ public class HomeController : Controller
         return View();
     }
 
+    // [HttpPost]
+    // [AllowAnonymous]
+    // public async Task<IActionResult> SignIn(string email, string password)
+    // {
+    //     try
+    //     {
+    //         var user = await _logInService.LogIn(email, password);
+
+    //         if (user == null)
+    //         {
+    //             return BadRequest("Invalid email or password.");
+    //         }
+
+    //        //hämtar jwt token med det unika id:t
+    //         var jwtSecurityToken = _logInService.GenerateJwtToken(user.ID);
+
+
+    //         Response.Headers.Add("Authorization", "Bearer " + jwtSecurityToken);
+    //         // return RedirectToAction("Index", "Account");
+    //         return Ok();
+    //     }
+    //     catch (Exception e)
+    //     {
+    //         Debug.WriteLine("error:" + e.Message);
+    //         return RedirectToAction("Index", "Home");
+    //     }
+    // }
+
     [HttpPost]
     [AllowAnonymous]
     public async Task<IActionResult> SignIn(string email, string password)
@@ -61,12 +90,24 @@ public class HomeController : Controller
                 return BadRequest("Invalid email or password.");
             }
 
-           //hämtar jwt token med det unika id:t
             var jwtSecurityToken = _logInService.GenerateJwtToken(user.ID);
 
-            Response.Headers.Add("Authorization", "Bearer " + jwtSecurityToken);
+            // Lägg till Authorization-header med JWT-token i Request
+            var request = new HttpRequestMessage(HttpMethod.Get, "https://localhost:7095/Account/Index");
+            request.Headers.Authorization = new AuthenticationHeaderValue(
+                "Bearer",
+                jwtSecurityToken
+            );
 
-            return RedirectToAction("Index", "Account");
+            HttpClient client = new();
+            var response = await client.SendAsync(request);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                return BadRequest("Failed to log in.");
+            }
+
+            return View("Index");
         }
         catch (Exception e)
         {
