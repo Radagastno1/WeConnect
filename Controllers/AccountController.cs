@@ -4,7 +4,6 @@ using WeConnect.Models;
 using WeConnect.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using System.IdentityModel.Tokens.Jwt;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace WeConnect.Controllers;
 
@@ -32,20 +31,29 @@ public class AccountController : BaseController
         _configuration = configuration;
     }
 
-    [Authorize]
     public async Task<IActionResult> Index()
     {
-        Console.WriteLine("AccountControllers Index action is called.");
         try
         {
-            var jwtTokenString = Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
+            var jwtTokenString = Request.Headers["Authorization"].ToString();
+            if (string.IsNullOrEmpty(jwtTokenString))
+            {
+                // Kolla om token har skickats i query-parametern
+                if (Request.Query.TryGetValue("token", out var jwtTokenQueryParam))
+                {
+                    jwtTokenString = jwtTokenQueryParam.ToString();
+                }
+            }
+            else
+            {
+                jwtTokenString = jwtTokenString.Replace("Bearer ", "");
+            }
 
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var token = tokenHandler.ReadJwtToken(jwtTokenString);
+            var jwtToken = new JwtSecurityTokenHandler().ReadJwtToken(jwtTokenString);
 
             // Hämta användarens id från JWT-tokenet
             var userId = int.Parse(
-                token.Claims.FirstOrDefault(x => x.Type == JwtRegisteredClaimNames.Sub)?.Value
+                jwtToken.Claims.FirstOrDefault(x => x.Type == JwtRegisteredClaimNames.Sub)?.Value
             );
 
             // Hämta användaren från databasen med hjälp av användarens id
@@ -57,10 +65,12 @@ public class AccountController : BaseController
             var conversations = await _conversationService.GetUnreadConversations(user);
 
             var myViewModel = UserToMyViewModel(user, notifications, conversations);
+
             if (user == null)
             {
                 return RedirectToAction("Index", "Home");
             }
+
             return View(myViewModel);
         }
         catch (Exception e)

@@ -92,9 +92,10 @@ public class HomeController : Controller
 
             var jwtSecurityToken = _logInService.GenerateJwtToken(user.ID);
 
-            Response.Headers.Add("Authorization", "Bearer " + jwtSecurityToken);
-
-            return RedirectToAction("Index", "Account");
+            // Response.Headers.Add("Authorization", "Bearer " + jwtSecurityToken);
+            // return RedirectToAction("Index", "Account");
+          
+            return RedirectToAction("Index", "Account", new { token = jwtSecurityToken });
         }
         catch (Exception e)
         {

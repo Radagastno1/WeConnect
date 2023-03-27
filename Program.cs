@@ -80,16 +80,6 @@ app.UseAuthentication();
 app.UseAuthorization();
 app.UseStaticFiles();
 
-// app.Use(
-//     async (context, next) =>
-//     {
-//         Console.WriteLine(
-//             $"Authorization header value: {context.Request.Headers["Authorization"]}"
-//         );
-//         await next();
-//     }
-// );
-
 app.MapControllerRoute(name: "default", pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
