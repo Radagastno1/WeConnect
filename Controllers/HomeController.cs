@@ -92,22 +92,9 @@ public class HomeController : Controller
 
             var jwtSecurityToken = _logInService.GenerateJwtToken(user.ID);
 
-            // Lägg till Authorization-header med JWT-token i Request
-            var request = new HttpRequestMessage(HttpMethod.Get, "https://localhost:7095/Account/Index");
-            request.Headers.Authorization = new AuthenticationHeaderValue(
-                "Bearer",
-                jwtSecurityToken
-            );
+            Response.Headers.Add("Authorization", "Bearer " + jwtSecurityToken);
 
-            HttpClient client = new();
-            var response = await client.SendAsync(request);
-
-            if (!response.IsSuccessStatusCode)
-            {
-                return BadRequest("Failed to log in.");
-            }
-
-            return View("Index");
+            return RedirectToAction("Index", "Account");
         }
         catch (Exception e)
         {

@@ -1,34 +1,39 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using System.Net;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
 
-builder.Services.AddAuthentication(options =>
-{
-    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-})
-.AddJwtBearer(options =>
-{
-    options.RequireHttpsMetadata = false;
-    options.SaveToken = true;
-    options.IncludeErrorDetails = true;
-    options.TokenValidationParameters = new TokenValidationParameters
+builder.Services
+    .AddAuthentication(options =>
     {
-        ValidateIssuerSigningKey = true,
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(builder.Configuration.GetSection("JwtSettings:mySecretKey").Value)),
-        ValidateIssuer = true,
-        ValidIssuer = builder.Configuration.GetSection("JwtSettings:myIssuer").Value,
-        ValidateAudience = true,
-        ValidAudience = builder.Configuration.GetSection("JwtSettings:myAudience").Value,
-        ValidateLifetime = true,
-        ClockSkew = TimeSpan.Zero
-    };
-});
+        options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+        options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    })
+    .AddJwtBearer(options =>
+    {
+        options.RequireHttpsMetadata = false;
+        options.SaveToken = true;
+        options.IncludeErrorDetails = true;
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(
+                Encoding.ASCII.GetBytes(
+                    builder.Configuration.GetSection("JwtSettings:mySecretKey").Value
+                )
+            ),
+            ValidateIssuer = true,
+            ValidIssuer = builder.Configuration.GetSection("JwtSettings:myIssuer").Value,
+            ValidateAudience = true,
+            ValidAudience = builder.Configuration.GetSection("JwtSettings:myAudience").Value,
+            ValidateLifetime = true,
+            ClockSkew = TimeSpan.Zero
+        };
+    });
 
 builder.Services.AddSession();
 
@@ -74,6 +79,16 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseStaticFiles();
+
+// app.Use(
+//     async (context, next) =>
+//     {
+//         Console.WriteLine(
+//             $"Authorization header value: {context.Request.Headers["Authorization"]}"
+//         );
+//         await next();
+//     }
+// );
 
 app.MapControllerRoute(name: "default", pattern: "{controller=Home}/{action=Index}/{id?}");
 

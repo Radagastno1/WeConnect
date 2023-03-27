@@ -32,14 +32,12 @@ public class AccountController : BaseController
         _configuration = configuration;
     }
 
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-    // [Authorize]
+    [Authorize]
     public async Task<IActionResult> Index()
     {
         Console.WriteLine("AccountControllers Index action is called.");
         try
         {
-            // var jwtTokenString = Request.Cookies["AuthCookie"];
             var jwtTokenString = Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
 
             var tokenHandler = new JwtSecurityTokenHandler();
@@ -50,7 +48,7 @@ public class AccountController : BaseController
                 token.Claims.FirstOrDefault(x => x.Type == JwtRegisteredClaimNames.Sub)?.Value
             );
 
-            // var userId = GetUserIdFromToken(jwtTokenString);
+            // Hämta användaren från databasen med hjälp av användarens id
             var user = await _userService.GetUserById(userId);
 
             var notifications =
@@ -77,6 +75,7 @@ public class AccountController : BaseController
         try
         {
             var userId = HttpContext.Session.GetInt32("UserId");
+
             var user = await _userService.GetUserById(userId);
 
             var friendsAsUsers = await _friendService.GetMine(user);
